@@ -15,7 +15,7 @@
                 var len = dataWeGotViaJsonp.streams.length;
                 for (var i = 0; i < len; i++) {
                     topStream = dataWeGotViaJsonp.streams[i];
-                    text = '<b>' + topStream.channel.name + '</b><img src="' + topStream.preview.medium + '"">';
+                    text = '<a href="player.php?stream=' + topStream.channel.name + '"><b>' + topStream.channel.name + '</b></a><img src="' + topStream.preview.medium + '"">';
                     $('#featured' + (i + 1)).html(text);
                 }
             }
