@@ -1,13 +1,36 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
+<script>
+	$( document ).ready(function() { 
+		var topStreams = "https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3";
+		$.getJSON(topStreams, function(result) {
+		    $.each(result, function(i, field){
+		      $("#featured1").append(field + " ");
+		    });
+		  });
+	});
+</script>
 <body>
-	<div id="topBar">
-		<span id="logo">LoL Stream Data</span>
-		<span
+	<div id="topBar" align="center" valign="center">
+		<span id="logo">LOL STREAM DATA</span>
+		<span>Home</span>
+		<span>All Streams</span>
+		<span>Categories</span>
+		<span>About</span>
 	</div>
-	<div id="content"></div>
+	<div id="content">
+		<div id="featured">
+			<div class="contentTitle">Featured Streams</div>
+			<div id="featuredStreamsContainer">
+				<div id="featured1"></div>
+				<div id="featured2"></div>
+				<div id="featured3"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
