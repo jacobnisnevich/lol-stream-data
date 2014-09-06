@@ -2,17 +2,26 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <script>
 	$( document ).ready(function() { 
 		var topStreams = "https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3";
-		$.getJSON(topStreams, function(result) {
-		    $.each(result, function(i, field){
-		      $("#featured1").append(field + " ");
-		    });
-		  });
+		var topStreamsReturn = httpGet(topStreams);
+		var topStreamsData = $.parseJSON(topStreamsReturn);
+
+		$("#featured1").text(topStreamsData.streams);
 	});
+
+	function httpGet(theUrl)
+	{
+	    var xmlHttp = null;
+
+	    xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open( "GET", theUrl, false );
+	    xmlHttp.send( null );
+	    return xmlHttp.responseText;
+	}
 </script>
 <body>
 	<div id="topBar" align="center" valign="center">
