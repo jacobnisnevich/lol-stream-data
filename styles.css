@@ -1,0 +1,16 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	margin: 0px;
+}
+
+#topBar {
+	background-color: #333;
+	color: #EEE;
+	height: 50px;
+}
+
+#logo {
+	font-size: 24px;
+	font-weight: bold;
+}
