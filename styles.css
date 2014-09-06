@@ -4,6 +4,10 @@ body {
 	margin: 0px;
 }
 
+b {
+	line-height: 45px;
+}
+
 #topBar {
 	background-color: #333;
 	color: #EEE;
@@ -11,7 +15,11 @@ body {
 }
 
 #topBar span {
-	padding: 5px 56px;
+	padding: 9px 56px;
+}
+
+#topBar span:hover:not(:first-child) {
+	background-color: #555;
 }
 
 #logo {
@@ -20,13 +28,16 @@ body {
 }
 
 #content {
-	margin: 20px 600px;
+	margin: 0px 580px;
+	height: 970px;
+	background-color: #EEE;
+	padding: 20px 24px;
 }
 
 #featuredStreamsContainer div {
 	float: left;
 	width: 300px;
-	height: 300px;
+	padding: 10px 0px;
 	margin-left: 2px;
 }
 

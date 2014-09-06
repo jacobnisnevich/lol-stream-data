@@ -7,7 +7,7 @@
 <script>
 	$(document).ready(function(){
         $.ajax({
-            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3',
+            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
             dataType: 'jsonp',
             success: function(dataWeGotViaJsonp) {
                 var text = '';
@@ -31,11 +31,17 @@
 	</div>
 	<div id="content">
 		<div id="featured">
-			<div class="contentTitle">Featured Streams</div>
+			<div class="contentTitle">Top Streams</div>
 			<div id="featuredStreamsContainer">
 				<div id="featured1"></div>
 				<div id="featured2"></div>
 				<div id="featured3"></div>
+				<div id="featured6"></div>
+				<div id="featured7"></div>
+				<div id="featured8"></div>
+				<div id="featured9"></div>
+				<div id="featured10"></div>
+				<div id="featured11"></div>
 			</div>
 		</div>
 	</div>
