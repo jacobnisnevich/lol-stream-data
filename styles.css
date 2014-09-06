@@ -1,6 +1,7 @@
 body {
 	font-family: 'Open Sans Condensed', sans-serif;
 	font-size: 24px;
+	color: #333;
 	margin: 0px;
 }
 
@@ -10,6 +11,7 @@ b {
 
 a {
 	text-decoration: none;
+	color: #333;
 }
 
 #topBar {
