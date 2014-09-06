@@ -5,23 +5,22 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <script>
-	$( document ).ready(function() { 
+	$(document).ready(function(){
 		var topStreams = "https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3";
-		var topStreamsReturn = httpGet(topStreams);
-		var topStreamsData = $.parseJSON(topStreamsReturn);
-
-		$("#featured1").text(topStreamsData.streams);
-	});
-
-	function httpGet(theUrl)
-	{
-	    var xmlHttp = null;
-
-	    xmlHttp = new XMLHttpRequest();
-	    xmlHttp.open( "GET", theUrl, false );
-	    xmlHttp.send( null );
-	    return xmlHttp.responseText;
-	}
+        $.ajax({
+            url: topStreams,
+            dataType: 'jsonp',
+            success: function(dataWeGotViaJsonp){
+                var text = '';
+                var len = dataWeGotViaJsonp.length;
+                for(var i=0;i<len;i++){
+                    topStream = dataWeGotViaJsonp[i];
+                    text += '<p>'topStream.channel.name'</p>'
+                }
+                $('#feature1').html(text);
+            }
+        });
+    })
 </script>
 <body>
 	<div id="topBar" align="center" valign="center">
