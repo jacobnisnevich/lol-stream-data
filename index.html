@@ -15,7 +15,7 @@
                 var len = dataWeGotViaJsonp.length;
                 for(var i=0;i<len;i++){
                     topStream = dataWeGotViaJsonp[i];
-                    text += '<p>'topStream.channel.name'</p>'
+                    text += '<p>' + topStream.channel.name + '</p>'
                 }
                 $('#feature1').html(text);
             }
