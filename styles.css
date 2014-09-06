@@ -8,6 +8,10 @@ b {
 	line-height: 45px;
 }
 
+a {
+	text-decoration: none;
+}
+
 #topBar {
 	background-color: #333;
 	color: #EEE;
@@ -16,6 +20,10 @@ b {
 
 #topBar span {
 	padding: 9px 56px;
+}
+
+#topBar span a{
+	color: #EEE;
 }
 
 #topBar span:hover:not(:first-child) {
