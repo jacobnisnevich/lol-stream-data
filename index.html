@@ -6,18 +6,17 @@
 </head>
 <script>
 	$(document).ready(function(){
-		var topStreams = "https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3";
         $.ajax({
-            url: topStreams,
+            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=3',
             dataType: 'jsonp',
-            success: function(dataWeGotViaJsonp){
+            success: function(dataWeGotViaJsonp) {
                 var text = '';
-                var len = dataWeGotViaJsonp.length;
-                for(var i=0;i<len;i++){
-                    topStream = dataWeGotViaJsonp[i];
-                    text += '<p>' + topStream.channel.name + '</p>'
+                var len = dataWeGotViaJsonp.streams.length;
+                for (var i = 0; i < len; i++) {
+                    topStream = dataWeGotViaJsonp.streams[i];
+                    text = '<b>' + topStream.channel.name + '</b><img src="' + topStream.preview.medium + '"">';
+                    $('#featured' + (i + 1)).html(text);
                 }
-                $('#feature1').html(text);
             }
         });
     })

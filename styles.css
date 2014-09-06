@@ -28,5 +28,8 @@ body {
 	width: 300px;
 	height: 300px;
 	margin-left: 2px;
-	border: 1px solid gray;
+}
+
+#featuredStreamsContainer div img {
+	width: 290px;
 }
