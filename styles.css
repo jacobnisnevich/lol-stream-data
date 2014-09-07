@@ -1,3 +1,5 @@
+/* INDEX.HTML */
+
 body {
 	font-family: 'Open Sans Condensed', sans-serif;
 	font-size: 24px;
@@ -38,7 +40,7 @@ a {
 }
 
 #content {
-	margin: 0px 580px;
+	margin: 0px 474px;
 	height: 970px;
 	background-color: #EEE;
 	padding: 20px 24px;
@@ -53,4 +55,41 @@ a {
 
 #featuredStreamsContainer div img {
 	width: 290px;
+}
+
+/* PLAYER.ASP */
+
+#streamDescription {
+	padding-bottom: 5px;
+}
+
+#divisionRank {
+	float: right;
+}
+
+#stats {
+	width: 940px;
+}
+
+.statsPanel {
+	float: left;
+	width: 280px;
+	height: 300px;
+	margin: 20px 10px;
+	background-color: #DDD;
+}
+
+#rankLeague {
+	text-align: center;
+	font-weight: bold;
+}
+
+#rankLP {
+	float: right;
+	padding: 20px;
+}
+
+#rankInfo {
+	float: left;
+	padding: 20px;
 }
