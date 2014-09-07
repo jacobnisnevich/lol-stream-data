@@ -3,21 +3,23 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <script>
 	$(document).ready(function(){
-		var summoner = 'aphromoo';
-		var role = 'SUPPORT';
+		var summoner = 'imaqtpie';
+		var role = 'ADC';
 		var region = 'na'
-
+        var id = getSummonerID(summoner, region);
+        
         $.ajax({
             url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
             dataType: 'json',
             success: function(dataWeGotViaJsonp) {
             	summoner = summoner.replace(/\s/g, '').toLowerCase();
-                var id = dataWeGotViaJsonp[summoner].id;
-                $.ajax({
+            	id = dataWeGotViaJsonp[summoner].id;
+		        $.ajax({
 		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 		            dataType: 'json',
 		            success: function(newData) {
@@ -34,11 +36,66 @@
 		                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
 		            }
 		        });
-            }
+			}
         });
+
+		$.ajax({
+			url: 'https://community-league-of-legends.p.mashape.com/api/v1.0/' + region + '/summoner/retrieveInProgressSpectatorGameInfo/' + summoner,
+			dataType: 'json',
+			headers: {"X-Mashape-Authorization" : "ZtLlNdZge6mshmy7fLdhxNt8YfP2p1FRaJ4jsn2YXW1NJdCqnc"},
+			success: function(dataWeGotViaJsonp) {
+            	console.log(dataWeGotViaJsonp);          	
+            	firstTeam = dataWeGotViaJsonp.game.teamOne.array;
+            	secondTeam = dataWeGotViaJsonp.game.teamTwo.array;
+            	for (var i = 0; i < 5; i++) {
+            		$('#one' + (i + 1)).html(firstTeam[i].summonerName);
+            		$('#two' + (i + 1)).html(secondTeam[i].summonerName);
+            	}
+			}
+		});
 
 		update();
     })
+
+	function getSummonerID(summoner, region) {
+		$.ajax({
+            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+            dataType: 'json',
+            success: function(dataWeGotViaJsonp) {
+            	summoner = summoner.replace(/\s/g, '').toLowerCase();
+                return dataWeGotViaJsonp[summoner].id;
+            }
+        });
+	}
+
+	function updateRank(summoner, region, id) {
+		$.ajax({
+            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+            dataType: 'json',
+            success: function(dataWeGotViaJsonp) {
+            	summoner = summoner.replace(/\s/g, '').toLowerCase();
+            	id = dataWeGotViaJsonp[summoner].id;
+		        $.ajax({
+		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+		            dataType: 'json',
+		            success: function(newData) {
+		                var division = newData[id][0].entries[0].division;
+		                var tier = newData[id][0].tier;
+		                var leaguename = newData[id][0].name;
+		                var rank = tier + ' ' + division;
+		                var text = role + ' | <b>' + rank + '</b>';
+		                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
+		                $('#divisionRank').html(text);
+		                $('#rankInfo').html(rank);
+		                $('#rankLP').html(leaguepoints);
+		                $('#rankLeague').html(leaguename);
+		                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+		                window.setTimeout(updateRank(region, id), 3000);
+		            }
+		        });
+			}
+        });
+	}
 
 	function update() {
 		$.ajax({
@@ -102,7 +159,25 @@
 				<div id="rankInfo"></div>
 				<div id="rankLP"></div>
 			</div> 
-			<div class="statsPanel"></div>
+			<div class="statsPanel">
+				<div id="currentGameTitle" align="center">Game in Progress</div>
+				<div id="currentGame">
+					<div id="teamOne" align="left">
+						<div id="one1"></div>
+						<div id="one2"></div>
+						<div id="one3"></div>
+						<div id="one4"></div>
+						<div id="one5"></div>
+					</div>
+					<div id="teamTwo" align="right">
+						<div id="two1"></div>
+						<div id="two2"></div>
+						<div id="two3"></div>
+						<div id="two4"></div>
+						<div id="two5"></div>
+					</div>
+				</div>
+			</div>
 			<div class="statsPanel"></div>
 		</div>
 	</div>

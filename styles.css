@@ -93,3 +93,17 @@ a {
 	float: left;
 	padding: 20px;
 }
+
+#currentGame {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	padding: 6px;
+}
+
+#teamOne {
+	float: left;
+}
+
+#teamTwo {
+	float: right;
+}
