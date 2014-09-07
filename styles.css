@@ -1,7 +1,19 @@
+/* INDEX.HTML */
+
 body {
-	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 24px;
+	color: #333;
 	margin: 0px;
+}
+
+b {
+	line-height: 45px;
+}
+
+a {
+	text-decoration: none;
+	color: #333;
 }
 
 #topBar {
@@ -10,7 +22,88 @@ body {
 	height: 50px;
 }
 
+#topBar span {
+	padding: 9px 56px;
+}
+
+#topBar span a{
+	color: #EEE;
+}
+
+#topBar span:hover:not(:first-child) {
+	background-color: #555;
+}
+
 #logo {
-	font-size: 24px;
+	font-size: 32px;
 	font-weight: bold;
+}
+
+#content {
+	margin: 0px 474px;
+	height: 970px;
+	background-color: #EEE;
+	padding: 20px 24px;
+}
+
+#featuredStreamsContainer div {
+	float: left;
+	width: 300px;
+	padding: 10px 0px;
+	margin-left: 2px;
+}
+
+#featuredStreamsContainer div img {
+	width: 290px;
+}
+
+/* PLAYER.ASP */
+
+#streamDescription {
+	padding-bottom: 5px;
+}
+
+#divisionRank {
+	float: right;
+}
+
+#stats {
+	width: 940px;
+}
+
+.statsPanel {
+	float: left;
+	width: 280px;
+	height: 300px;
+	margin: 20px 10px;
+	background-color: #DDD;
+}
+
+#rankLeague {
+	text-align: center;
+	font-weight: bold;
+}
+
+#rankLP {
+	float: right;
+	padding: 20px;
+}
+
+#rankInfo {
+	float: left;
+	padding: 20px;
+}
+
+#currentGame {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	padding: 6px;
+}
+
+#teamOne {
+	float: left;
+}
+
+#teamTwo {
+	float: right;
 }

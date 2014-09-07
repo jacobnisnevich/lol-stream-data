@@ -1,13 +1,50 @@
 <html>
+<title>LoL Stream Data</title>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
+<script>
+	$(document).ready(function(){
+        $.ajax({
+            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
+            dataType: 'jsonp',
+            success: function(dataWeGotViaJsonp) {
+                var text = '';
+                var len = dataWeGotViaJsonp.streams.length;
+                for (var i = 0; i < len; i++) {
+                    topStream = dataWeGotViaJsonp.streams[i];
+                    text = '<a href="player.asp?stream=' + topStream.channel.name + '"><b>' + topStream.channel.name + '</b></a><img src="' + topStream.preview.medium + '"">';
+                    $('#featured' + (i + 1)).html(text);
+                }
+            }
+        });
+    })
+</script>
 <body>
-	<div id="topBar">
-		<span id="logo">LoL Stream Data</span>
-		<span
+	<div id="topBar" align="center" valign="center">
+		<span id="logo">LOL STREAM DATA</span>
+		<span>All Streams</span>
+		<span>Categories</span>
+		<span><a href="contribute.html">Contribute</a></span>
+		<span>About</span>
 	</div>
-	<div id="content"></div>
+	<div id="content">
+		<div id="featured">
+			<div class="contentTitle">Top Streams</div>
+			<div id="featuredStreamsContainer">
+				<div id="featured1"></div>
+				<div id="featured2"></div>
+				<div id="featured3"></div>
+				<div id="featured6"></div>
+				<div id="featured7"></div>
+				<div id="featured8"></div>
+				<div id="featured9"></div>
+				<div id="featured10"></div>
+				<div id="featured11"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
