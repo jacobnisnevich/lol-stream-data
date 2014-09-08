@@ -32,6 +32,7 @@
 		var summoner = '<%=summoner%>';
 		var role = '<%=role%>';
 		var region = '<%=region%>'
+		$("#currentRegion").html(region);
         var id = getSummonerID(summoner, region);
         
         $.ajax({
@@ -74,8 +75,8 @@
             	}
             	champSelect = dataWeGotViaJsonp.game.playerChampionSelections.array;
             	for (var pick = 0; pick < 10; pick++) {
-            		champID = champSelect[pick].championId;
             		(function (pick) {
+	            		champID = champSelect[pick].championId;
 	            		$.ajax({
 				            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 				            dataType: 'json',
@@ -84,12 +85,18 @@
 			            		for (var team1 = 0; team1 < 5; team1++) {
 			            			if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
 				            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+				            			if (summoner.replace(/\s/g, '').toLowerCase() == $('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+				            				$("#currentChampId").html(champID);
+				            			}
 				            			return;
 				            		}
 			            		}
 			            		for (var team2 = 0; team2 < 5; team2++) {
 			            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
 			            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+			            				if (summoner.replace(/\s/g, '').toLowerCase() == $('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+				            				$("#currentChampId").html(champID);
+				            			}
 			            				return;
 			            			}
 			            		}
@@ -99,6 +106,8 @@
             	}
 			}
 		});
+
+		updateChampStats();
 
 		update();
     })
@@ -119,6 +128,7 @@
             dataType: 'json',
             success: function(dataWeGotViaJsonp) {
             	summoner = summoner.replace(/\s/g, '').toLowerCase();
+		        $('#currentSummId').html(dataWeGotViaJsonp[summoner].id);
                 return dataWeGotViaJsonp[summoner].id;
             }
         });
@@ -131,6 +141,7 @@
             success: function(dataWeGotViaJsonp) {
             	summoner = summoner.replace(/\s/g, '').toLowerCase();
             	id = dataWeGotViaJsonp[summoner].id;
+
 		        $.ajax({
 		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 		            dataType: 'json',
@@ -141,16 +152,56 @@
 		                var rank = tier + ' ' + division;
 		                var text = role + ' | <b>' + rank + '</b>';
 		                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
+
 		                $('#divisionRank').html(text);
 		                $('#rankInfo').html(rank);
 		                $('#rankLP').html(leaguepoints);
 		                $('#rankLeague').html(leaguename);
 		                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+
 		                window.setTimeout(updateRank(region, id), 3000);
 		            }
 		        });
 			}
         });
+	}
+
+	function updateChampStats() {
+		var summId = $("#currentSummId").html();
+		var champId = $("#currentChampId").html();
+		var region = $("#currentRegion").html();
+
+		if (summId != undefined && champId != undefined && region != undefined && champId != "" && champId != "") {
+			$.ajax({
+	            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champId + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+	            dataType: 'json',
+	            success: function(data) {
+	            	var champName = data.name;
+	            	$("#currentChampName").html(champName);
+
+	            	$.ajax({
+			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.3/stats/by-summoner/' + summId + '/ranked?season=SEASON4&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+			            dataType: 'json',
+			            success: function(data) {
+			                champs = data.champions;
+
+			                for (var i = 0; i < champs.length; i++) {
+			                	(function (i) {
+			                	if (champs[i].id == champId) {
+			                		$("#currentChampImg").attr("src","images/champions/" + champName + "Square.png");
+
+			                	}
+			                	})(i);
+			                }
+
+			                window.setTimeout(updateChampStats, 3000);
+			            }
+			        });
+	            }
+			});
+		} else {
+			window.setTimeout(updateChampStats, 1000);
+		}
 	}
 
 	function update() {
@@ -234,7 +285,13 @@
 					</div>
 				</div>
 			</div>
-			<div class="statsPanel" style="width: 880px; height: 150px; margin-top: 0px;"></div>
+			<div class="statsPanel" style="width: 880px; height: 150px; margin-top: 0px;">
+				<div id="currentRegion" style="display:none"></div>
+				<div id="currentSummId" style="display:none"></div>
+				<div id="currentChampId" style="display:none"></div>
+				<div id="currentChampName"></div>
+				<img id="currentChampImg"></img>
+			</div>
 		</div>
 	</div>
 </body>
