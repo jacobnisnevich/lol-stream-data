@@ -41,7 +41,7 @@ a {
 
 #content {
 	margin: 0px 474px;
-	height: 970px;
+	height: 1090px;
 	background-color: #EEE;
 	padding: 20px 24px;
 }
@@ -96,8 +96,14 @@ a {
 
 #currentGame {
 	font-family: 'Open Sans', sans-serif;
-	font-size: 14px;
+	font-size: 16px;
 	padding: 6px;
+}
+
+#currentGame img {
+	height: 32px;
+	width: 32px;
+	padding: 0px 5px;
 }
 
 #teamOne {
@@ -106,4 +112,13 @@ a {
 
 #teamTwo {
 	float: right;
+}
+
+.player {
+	width: 200px;
+	padding: 7px;
+}
+
+.player span {
+	padding-bottom: 3px;
 }

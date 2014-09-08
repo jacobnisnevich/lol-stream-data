@@ -8,8 +8,8 @@
 </head>
 <script>
 	$(document).ready(function(){
-		var summoner = 'imaqtpie';
-		var role = 'ADC';
+		var summoner = 'TheOddOne';
+		var role = 'JUNGLER';
 		var region = 'na'
         var id = getSummonerID(summoner, region);
         
@@ -53,19 +53,28 @@
             	}
             	champSelect = dataWeGotViaJsonp.game.playerChampionSelections.array;
             	for (var pick = 0; pick < 10; pick++) {
-            		for (var team1 = 0; team1 < 5; team1++) {
-            			if ($('#one' + (team1 + 1)).html().toLowerCase() == champSelect[pick].summonerInternalName) {
-	            			champID = champSelect[pick].championId;
-	            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + getChampion(region, champID).replace(/'\s/g, '') + "Square.png");
-	            		}
-            		}
-            		for (var team2 = 0; team2 < 5; team2++) {
-            			var champID;
-            			if ($('#one' + (team2 + 1)).html().toLowerCase() == champSelect[pick].summonerInternalName) {
-            				champID = champSelect[pick].championId;
-            				$("#one" + (team2 + 1) + "Img").attr("src","images/champions/" + getChampion(region, champID).replace(/'\s/g, '') + "Square.png");
-            			}
-            		}
+            		champID = champSelect[pick].championId;
+            		(function (pick) {
+	            		$.ajax({
+				            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+				            dataType: 'json',
+				            success: function(data) {
+				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '');
+			            		for (var team1 = 0; team1 < 5; team1++) {
+			            			if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+				            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+				            			return;
+				            		}
+			            		}
+			            		for (var team2 = 0; team2 < 5; team2++) {
+			            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+			            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+			            				return;
+			            			}
+			            		}
+			            	}
+	        			});	
+					})(pick);
             	}
 			}
 		});
@@ -74,12 +83,11 @@
     })
 
 	function getChampion(region, id) {
-		console.log('https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + id + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643');
 		$.ajax({
             url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + id + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
             dataType: 'json',
             success: function(data) {
-                return data.name;
+                return data.name.toString();
             }
         });
 	}
@@ -186,26 +194,26 @@
 				<div id="rankInfo"></div>
 				<div id="rankLP"></div>
 			</div> 
-			<div class="statsPanel">
+			<div class="statsPanel" style="width:580px">
 				<div id="currentGameTitle" align="center">Game in Progress</div>
 				<div id="currentGame">
 					<div id="teamOne" align="left">
-						<img id="one1Img"><div id="one1"></div>
-						<img id="one2Img"><div id="one2"></div>
-						<img id="one3Img"><div id="one3"></div>
-						<img id="one4Img"><div id="one4"></div>
-						<img id="one5Img"><div id="one5"></div>
+						<div class="player"><img id="one1Img"><span id="one1"></span></div>
+						<div class="player"><img id="one2Img"><span id="one2"></span></div>
+						<div class="player"><img id="one3Img"><span id="one3"></span></div>
+						<div class="player"><img id="one4Img"><span id="one4"></span></div>
+						<div class="player"><img id="one5Img"><span id="one5"></span></div>
 					</div>
 					<div id="teamTwo" align="right">
-						<div id="two1"></div><img id="two1Img">
-						<div id="two2"></div><img id="two1Img">
-						<div id="two3"></div><img id="two1Img">
-						<div id="two4"></div><img id="two1Img">
-						<div id="two5"></div><img id="two1Img">
+						<div class="player"><span id="two1"></span><img id="two1Img"></div>
+						<div class="player"><span id="two2"></span><img id="two2Img"></div>
+						<div class="player"><span id="two3"></span><img id="two3Img"></div>
+						<div class="player"><span id="two4"></span><img id="two4Img"></div>
+						<div class="player"><span id="two5"></span><img id="two5Img"></div>
 					</div>
 				</div>
 			</div>
-			<div class="statsPanel"></div>
+			<div class="statsPanel" style="width: 880px; height: 150px; margin-top: 0px;"></div>
 		</div>
 	</div>
 </body>
