@@ -6,11 +6,32 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
+<% 
+	twitch = Request.QueryString("stream")
+
+	Set myConn = Server.CreateObject("ADODB.Connection")
+	myConn.open("Driver={MySQL ODBC 3.51 Driver};SERVER=MySQLC6.webcontrolcenter.com;DATABASE=alex;UID=alex;PWD=dbREh1FKeO0Iea;Port=3306")
+	set rs = Server.CreateObject("ADODB.recordset")
+
+    set command = Server.CreateObject("ADODB.Command")
+	command.CommandText = "SELECT * FROM lsd_streams WHERE twitch = ?"
+    command.CommandType = 1 'adCmdText
+    command.ActiveConnection = myConn
+
+    set invoiceNumParam = command.CreateParameter("@twitch", 200, &H0001, 255, twitch)
+    command.Parameters.Append invoiceNumParam
+
+	Set rs = command.Execute()
+	summoner = rs("summoner")
+	region = rs("region")
+	role = rs("role")
+%>
+
 <script>
 	$(document).ready(function(){
-		var summoner = 'TheOddOne';
-		var role = 'JUNGLER';
-		var region = 'na'
+		var summoner = '<%=summoner%>';
+		var role = '<%=role%>';
+		var region = '<%=region%>'
         var id = getSummonerID(summoner, region);
         
         $.ajax({
