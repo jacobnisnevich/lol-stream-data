@@ -122,3 +122,33 @@ a {
 .player span {
 	padding-bottom: 3px;
 }
+
+#currentChampName {
+	padding: 1px 10px;
+}
+
+#currentChampImg {
+	width: 96px;
+	padding: 10px;
+}
+
+.currentChampStatsPanels {
+ 	float: left;
+ 	margin: 10px 10px 10px 0px;
+ 	font-size: 17px;
+ 	font-weight: bold;
+ 	background-color: #CCC;
+ 	padding: 19px;
+}
+
+#currentChamp {
+ 	float: left;
+ 	margin: 10px;
+ 	font-weight: bold;
+ 	background-color: #CCC;
+ 	padding: 10px;
+}
+
+.currentChampStatsPanels div {
+	padding: 5px;
+}

@@ -83,22 +83,28 @@
 				            success: function(data) {
 				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '');
 			            		for (var team1 = 0; team1 < 5; team1++) {
-			            			if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
-				            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
-				            			if (summoner.replace(/\s/g, '').toLowerCase() == $('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase()) {
-				            				$("#currentChampId").html(champID);
-				            			}
-				            			return;
-				            		}
+			            			(function (team1) {
+			            				if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+					            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+
+					            			if (summoner.replace(/\s/g, '').toLowerCase() == $('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+					            				$("#currentChampId").html(champSelect[pick].championId);
+					            				$('#one' + (team1 + 1)).html('<b>' + $('#one' + (team1 + 1)).html() + '</b>')
+					            			}
+					            		}
+					            	})(team1);
 			            		}
 			            		for (var team2 = 0; team2 < 5; team2++) {
-			            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
-			            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
-			            				if (summoner.replace(/\s/g, '').toLowerCase() == $('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase()) {
-				            				$("#currentChampId").html(champID);
-				            			}
-			            				return;
-			            			}
+			            			(function (team2) {
+				            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+				            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+
+				            				if (summoner.replace(/\s/g, '').toLowerCase() == $('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+					            				$("#currentChampId").html(champSelect[pick].championId);
+					            				$('#two' + (team2 + 1)).html('<b>' + $('#two' + (team2 + 1)).html() + '</b>')
+					            			}
+					            		}
+			            			})(team2);
 			            		}
 			            	}
 	        			});	
@@ -176,7 +182,7 @@
 	            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champId + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 	            dataType: 'json',
 	            success: function(data) {
-	            	var champName = data.name;
+	            	var champName = data.name.replace(/\s/g, '').replace(/'/g, '');
 	            	$("#currentChampName").html(champName);
 
 	            	$.ajax({
@@ -190,6 +196,17 @@
 			                	if (champs[i].id == champId) {
 			                		$("#currentChampImg").attr("src","images/champions/" + champName + "Square.png");
 
+			                		$("#champGames").html("Games played: " + champs[i].stats.totalSessionsPlayed);
+									$("#champWins").html("Games won: " + champs[i].stats.totalSessionsWon);
+									$("#champLosses").html("Games lost: " + champs[i].stats.totalSessionsLost);
+
+									$("#champAverageKDA").html("Average KDA: " + (champs[i].stats.totalChampionKills/champs[i].stats.totalSessionsPlayed).toFixed(1) + "/" + (champs[i].stats.totalDeathsPerSession/champs[i].stats.totalSessionsPlayed).toFixed(1) + "/" + (champs[i].stats.totalAssists/champs[i].stats.totalSessionsPlayed).toFixed(1));
+									$("#champAverageGold").html("Average Gold: " + Math.round((champs[i].stats.totalGoldEarned/champs[i].stats.totalSessionsPlayed)));
+									$("#champAverageCS").html("Average Minion Kills: " + Math.round((champs[i].stats.totalMinionKills/champs[i].stats.totalSessionsPlayed)));
+
+									$("#champTriples").html("Triple kills: " + champs[i].stats.totalTripleKills);
+									$("#champQuadras").html("Quadra kills: " + champs[i].stats.totalQuadraKills);
+									$("#champPentas").html("Penta kills: " + champs[i].stats.totalPentaKills);
 			                	}
 			                	})(i);
 			                }
@@ -285,12 +302,35 @@
 					</div>
 				</div>
 			</div>
-			<div class="statsPanel" style="width: 880px; height: 150px; margin-top: 0px;">
+			<div class="statsPanel" style="width: 880px; height: 155px; margin-top: 0px;">
 				<div id="currentRegion" style="display:none"></div>
 				<div id="currentSummId" style="display:none"></div>
 				<div id="currentChampId" style="display:none"></div>
-				<div id="currentChampName"></div>
-				<img id="currentChampImg"></img>
+				<div>
+					<div id="currentChamp">
+						<img id="currentChampImg"></img>
+					</div>
+					<div class="currentChampStatsPanels" align="center" style="padding:19px 6px">
+						<div style="font-size: 19px; padding: 0px;">2014 Season Stats</div>
+						<div style="font-weight:normal; padding: 2px;"><b><%=summoner%></b> as</div>
+						<div id="currentChampName" style="padding: 0px;"></div>
+					</div>
+					<div class="currentChampStatsPanels">
+						<div id="champGames"></div>
+						<div id="champLosses"></div>
+						<div id="champWins"></div>
+					</div>
+					<div class="currentChampStatsPanels">
+						<div id="champAverageKDA"></div>
+						<div id="champAverageGold"></div>
+						<div id="champAverageCS"></div>
+					</div>	
+					<div class="currentChampStatsPanels">
+						<div id="champTriples"></div>
+						<div id="champQuadras"></div>
+						<div id="champPentas"></div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
