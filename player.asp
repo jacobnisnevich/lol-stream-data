@@ -305,8 +305,8 @@
 </script>
 <body>
 	<div id="topBar" align="center" valign="center">
-		<span id="logo">LOL STREAM DATA</span>
-		<span>All Streams</span>
+		<span id="logo"><a href="/lol-stream-data">All Streams</a></span>
+		<span><a href="/lol-stream-data">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.html">Contribute</a></span>
 		<span>About</span>
