@@ -56,12 +56,13 @@
 		region = rs("region")
 		role = rs("role")
 
-		'get data from LoL api based on summoner
-		oJSON.loadJSON(GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner))
+        jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
+		'get data from LoL api based on summoner
+		oJSON.loadJSON(jsonstring)
 
 		'if summoner is in a game, exit loop, otherwise move on to next record
-		If oJSON.data("success") = "true" Then
+		If oJSON.data("success") <> "false" Then
 
 			Exit Do
 			
