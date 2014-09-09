@@ -8,6 +8,7 @@
 </head>
 <!--#include file="includes/aspJSON1.17.asp" -->
 <% 
+	'function that retrieves json from the open-source LoL API
 	Function GetTextFromUrl(url)
 
 		  Dim oXMLHTTP
@@ -27,9 +28,10 @@
 
 	End Function
 
-
+	'retrieve url parameter and store it
 	twitch = Request.QueryString("stream")
 
+	'open ADODB connection to database
 	Set myConn = Server.CreateObject("ADODB.Connection")
 	myConn.open("Driver={MySQL ODBC 3.51 Driver};SERVER=MySQLC6.webcontrolcenter.com;DATABASE=alex;UID=alex;PWD=dbREh1FKeO0Iea;Port=3306")
 	set rs = Server.CreateObject("ADODB.recordset")
@@ -42,21 +44,27 @@
     set invoiceNumParam = command.CreateParameter("@twitch", 200, &H0001, 255, twitch)
     command.Parameters.Append invoiceNumParam
 
+    'set recordset rs to SQL command output
 	Set rs = command.Execute()
 
 	Set oJSON = New aspJSON
 
+	'loop through record set
 	Do While Not rs.EOF
 
 		summoner = rs("summoner")
 		region = rs("region")
 		role = rs("role")
 
+		'get data from LoL api based on summoner
 		oJSON.loadJSON(GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner))
 
+
+		'if summoner is in a game, exit loop, otherwise move on to next record
 		If oJSON.data("success") = "true" Then
 
 			Exit Do
+			
 		Else
 
 			rs.MoveNext
