@@ -6,7 +6,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
-<!--#include virtual="/aspJSON1.17.asp" -->
+<!--#include file="includes/aspJSON1.17.asp" -->
 <% 
 	Function GetTextFromUrl(url)
 
@@ -52,12 +52,15 @@
 		region = rs("region")
 		role = rs("role")
 
-		oJSON.loadJSON(Response.Write(GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)))
+		oJSON.loadJSON(GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner))
 
-		If oJSON.data("success") = true Then
+		If oJSON.data("success") = "true" Then
 
 			Exit Do
-			
+		Else
+
+			rs.MoveNext
+
 		End If
 
 	Loop
