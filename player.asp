@@ -6,7 +6,28 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
+<!--#include virtual="/aspJSON1.17.asp" -->
 <% 
+	Function GetTextFromUrl(url)
+
+		  Dim oXMLHTTP
+		  Dim strStatusTest
+
+		  Set oXMLHTTP = CreateObject("MSXML2.ServerXMLHTTP.3.0")
+
+		  oXMLHTTP.Open "GET", url, False
+		  oXMLHTTP.setRequestHeader "X-Mashape-Key", "e8I0JpAdlpmshOA5XfxuaOkWZCGbp1nIzGsjsn0NzfhuuWX2S3"
+		  oXMLHTTP.Send
+
+		  If oXMLHTTP.Status = 200 Then
+
+		    	GetTextFromUrl = oXMLHTTP.responseText
+
+		  End If
+
+	End Function
+
+
 	twitch = Request.QueryString("stream")
 
 	Set myConn = Server.CreateObject("ADODB.Connection")
@@ -22,9 +43,25 @@
     command.Parameters.Append invoiceNumParam
 
 	Set rs = command.Execute()
-	summoner = rs("summoner")
-	region = rs("region")
-	role = rs("role")
+
+	Set oJSON = New aspJSON
+
+	Do While Not rs.EOF
+
+		summoner = rs("summoner")
+		region = rs("region")
+		role = rs("role")
+
+		oJSON.loadJSON(Response.Write(GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)))
+
+		If oJSON.data("success") = true Then
+
+			Exit Do
+			
+		End If
+
+	Loop
+
 %>
 
 <script>
