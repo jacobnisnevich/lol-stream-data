@@ -152,3 +152,46 @@ a {
 .currentChampStatsPanels div {
 	padding: 5px;
 }
+
+/* CONTRIBUTE.ASP */
+
+.contributeForm {
+	font-size: 18px;
+	padding: 20px;
+}
+
+.contributeForm input, select {
+	width: 150px;
+	float: right;
+}
+
+.contributeForm span {
+	float: left;
+}
+
+.button {
+	border: 0px;
+	background: #333;
+	color: white;
+	font-weight: bold;
+	position: relative;
+	padding: 10px;
+}
+
+.button:hover {
+	background: #222;
+	cursor: pointer;
+	-webkit-transition: all .08s ease-in;
+	-moz-transition: all .08s ease-in;
+	-ms-transition: all .08s ease-in;
+	-o-transition: all .08s ease-in;
+	transition: all .08s ease-in;
+}
+
+/* CONTRIBUTE_CONFIRM.ASP */
+
+#submission {
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
+	padding: 20px;
+}

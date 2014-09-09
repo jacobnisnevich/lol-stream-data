@@ -7,6 +7,7 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <!--#include file="includes/aspJSON1.17.asp" -->
+<!--#include file="connect.asp" -->
 <% 
 	'function that retrieves json from the open-source LoL API
 	Function GetTextFromUrl(url)
@@ -33,7 +34,7 @@
 
 	'open ADODB connection to database
 	Set myConn = Server.CreateObject("ADODB.Connection")
-	myConn.open("Driver={MySQL ODBC 3.51 Driver};SERVER=MySQLC6.webcontrolcenter.com;DATABASE=alex;UID=alex;PWD=dbREh1FKeO0Iea;Port=3306")
+	myConn.open(GetConnectionString())
 	set rs = Server.CreateObject("ADODB.recordset")
 
     set command = Server.CreateObject("ADODB.Command")
@@ -308,7 +309,7 @@
 		<span id="logo"><a href="/lol-stream-data">All Streams</a></span>
 		<span><a href="/lol-stream-data">All Streams</a></span>
 		<span>Categories</span>
-		<span><a href="contribute.html">Contribute</a></span>
+		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
 	</div>
 	<div id="content">
