@@ -42,8 +42,8 @@
     command.CommandType = 1 'adCmdText
     command.ActiveConnection = myConn
 
-    set invoiceNumParam = command.CreateParameter("@twitch", 200, &H0001, 255, twitch)
-    command.Parameters.Append invoiceNumParam
+    set twitchParam = command.CreateParameter("@twitch", 200, &H0001, 255, twitch)
+    command.Parameters.Append twitchParam
 
     'set recordset rs to SQL command output
 	Set rs = command.Execute()
