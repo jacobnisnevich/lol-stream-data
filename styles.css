@@ -153,6 +153,11 @@ a {
 	padding: 5px;
 }
 
+#chat {
+	position: absolute;
+	margin: 20px;
+}
+
 /* CONTRIBUTE.ASP */
 
 .contributeForm {

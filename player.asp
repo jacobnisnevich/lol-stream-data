@@ -331,13 +331,16 @@
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
 	</div>
+	<div id="chat">
+		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<%=Request.QueryString("stream")%>&amp;popout_chat=true" height="700" width="425"></iframe>
+	</div>
 	<div id="content">
 		<div id="streamDescription">
 			<span id="streamTitle"><%=Request.QueryString("stream")%></span>
 			<span id="divisionRank"></span>
 		</div>
 		<div id="stream">
-			<object type="application/x-shockwave-flash" height="540" width="900" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel={CHANNEL}"  bgcolor="#000000">
+			<object type="application/x-shockwave-flash" height="540" width="900" id="live_embed_player_flash" data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=<%=Request.QueryString("stream")%>"  bgcolor="#000000">
 				<param  name="allowFullScreen" value="true" />
 				<param  name="allowScriptAccess" value="always" />
 				<param  name="allowNetworking" value="all" />
