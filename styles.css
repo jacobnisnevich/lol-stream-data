@@ -179,7 +179,7 @@ a {
 }
 
 .button:hover {
-	background: #222;
+	background: #555;
 	cursor: pointer;
 	-webkit-transition: all .08s ease-in;
 	-moz-transition: all .08s ease-in;
