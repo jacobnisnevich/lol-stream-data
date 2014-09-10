@@ -57,10 +57,14 @@
 		region = rs("region")
 		role = rs("role")
 
-        jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
+	    jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
 		'get data from LoL api based on summoner
-		oJSON.loadJSON(jsonstring)
+		If Not IsNull(jsonstring) Then
+
+			oJSON.loadJSON(jsonstring)
+
+		End If
 
 		'if summoner is in a game, exit loop, otherwise move on to next record
 		If oJSON.data("success") <> "false" Then
@@ -79,37 +83,46 @@
 
 <script>
 	$(document).ready(function(){
+		$("#rank").hide();
+		$("#contributeFormDiv").hide();
+
 		var summoner = '<%=summoner%>';
 		var role = '<%=role%>';
 		var region = '<%=region%>'
 		$("#currentRegion").html(region);
         var id = getSummonerID(summoner, region);
         
-        $.ajax({
-            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-            dataType: 'json',
-            success: function(dataWeGotViaJsonp) {
-            	summoner = summoner.replace(/\s/g, '').toLowerCase();
-            	id = dataWeGotViaJsonp[summoner].id;
-		        $.ajax({
-		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-		            dataType: 'json',
-		            success: function(newData) {
-		                var division = newData[id][0].entries[0].division;
-		                var tier = newData[id][0].tier;
-		                var leaguename = newData[id][0].name;
-		                var rank = tier + ' ' + division;
-		                var text = role + ' | <b>' + rank + '</b>';
-		                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
-		                $('#divisionRank').html(text);
-		                $('#rankInfo').html(rank);
-		                $('#rankLP').html(leaguepoints);
-		                $('#rankLeague').html(leaguename);
-		                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
-		            }
-		        });
-			}
-        });
+        if (summoner == "") {
+			$("#contributeFormDiv").show();
+		}
+		else {
+	        $.ajax({
+	            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+	            dataType: 'json',
+	            success: function(dataWeGotViaJsonp) {
+	            	summoner = summoner.replace(/\s/g, '').toLowerCase();
+	            	id = dataWeGotViaJsonp[summoner].id;
+			        $.ajax({
+			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+			            dataType: 'json',
+			            success: function(newData) {
+			            	$("#rank").show();
+			                var division = newData[id][0].entries[0].division;
+			                var tier = newData[id][0].tier;
+			                var leaguename = newData[id][0].name;
+			                var rank = tier + ' ' + division;
+			                var text = role + ' | <b>' + rank + '</b>';
+			                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
+			                $('#divisionRank').html(text);
+			                $('#rankInfo').html(rank);
+			                $('#rankLP').html(leaguepoints);
+			                $('#rankLeague').html(leaguename);
+			                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+			            }
+			        });
+				}
+	        });
+		}
 
 		$.ajax({
 			url: 'https://community-league-of-legends.p.mashape.com/api/v1.0/' + region + '/summoner/retrieveInProgressSpectatorGameInfo/' + summoner,
@@ -128,7 +141,7 @@
             		(function (pick) {
 	            		champID = champSelect[pick].championId;
 	            		$.ajax({
-				            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+				            url: 'https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 				            dataType: 'json',
 				            success: function(data) {
 				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '');
@@ -191,35 +204,41 @@
 	}
 
 	function updateRank(summoner, region, id) {
-		$.ajax({
-            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-            dataType: 'json',
-            success: function(dataWeGotViaJsonp) {
-            	summoner = summoner.replace(/\s/g, '').toLowerCase();
-            	id = dataWeGotViaJsonp[summoner].id;
+		if (summoner == "") {
+			$("#contributeFormDiv").show();
+		}
+		else {
+			$.ajax({
+	            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+	            dataType: 'json',
+	            success: function(dataWeGotViaJsonp) {
+	            	summoner = summoner.replace(/\s/g, '').toLowerCase();
+	            	id = dataWeGotViaJsonp[summoner].id;
 
-		        $.ajax({
-		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-		            dataType: 'json',
-		            success: function(newData) {
-		                var division = newData[id][0].entries[0].division;
-		                var tier = newData[id][0].tier;
-		                var leaguename = newData[id][0].name;
-		                var rank = tier + ' ' + division;
-		                var text = role + ' | <b>' + rank + '</b>';
-		                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
+			        $.ajax({
+			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+			            dataType: 'json',
+			            success: function(newData) {
+			                var division = newData[id][0].entries[0].division;
+			                var tier = newData[id][0].tier;
+			                var leaguename = newData[id][0].name;
+			                var rank = tier + ' ' + division;
+			                var text = role + ' | <b>' + rank + '</b>';
+			                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
 
-		                $('#divisionRank').html(text);
-		                $('#rankInfo').html(rank);
-		                $('#rankLP').html(leaguepoints);
-		                $('#rankLeague').html(leaguename);
-		                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+			                $('#divisionRank').html(text);
+			                $('#rankInfo').html(rank);
+			                $('#rankLP').html(leaguepoints);
+			                $('#rankLeague').html(leaguename);
+			                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
 
-		                window.setTimeout(updateRank(region, id), 3000);
-		            }
-		        });
-			}
-        });
+			                window.setTimeout(updateRank(region, id), 3000);
+			            }
+			        });
+				}
+	        });
+			$("#rank").show();
+		}
 	}
 
 	function updateChampStats() {
@@ -229,7 +248,7 @@
 
 		if (summId != undefined && champId != undefined && region != undefined && champId != "" && champId != "") {
 			$.ajax({
-	            url: 'https://' + region + '.api.pvp.net/api/lol/static-data/' + region + '/v1.2/champion/' + champId + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+	            url: 'https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champId + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 	            dataType: 'json',
 	            success: function(data) {
 	            	var champName = data.name.replace(/\s/g, '').replace(/'/g, '');
@@ -306,7 +325,7 @@
 </script>
 <body>
 	<div id="topBar" align="center" valign="center">
-		<span id="logo"><a href="/lol-stream-data">All Streams</a></span>
+		<span id="logo"><a href="/lol-stream-data">LOL STREAM DATA</a></span>
 		<span><a href="/lol-stream-data">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
@@ -328,10 +347,55 @@
 		</div>
 		<div id="stats">
 			<div class="statsPanel">
-				<div align="center"><img id="rankImg" src=""></div>
-				<div id="rankLeague"></div>
-				<div id="rankInfo"></div>
-				<div id="rankLP"></div>
+				<div id="rank">
+					<div align="center"><img id="rankImg" src=""></div>
+					<div id="rankLeague"></div>
+					<div id="rankInfo"></div>
+					<div id="rankLP"></div>
+				</div>
+				<div id="contributeFormDiv">
+					<form action="contribute_submit.asp" method="post">
+						<div style="width:285px">
+							<div class="contributeForm">
+								<span>Twitch Username</span>
+								<input type="text" name="twitch" value="<%= Request.QueryString("stream") %>" style="width: 135px;"/>
+							</div>
+							<div class="contributeForm">
+								<span>Summoner Name</span>
+								<input type="text" name="summoner" style="width: 135px;"/>
+							</div>
+							<div class="contributeForm">
+								<span>Role</span>
+								<select name="role" style="width: 135px;">
+									<option value="TOP">Top Lane</option>
+									<option value="JUNGLER">Jungle</option>
+									<option value="MID">Mid Lane</option>
+									<option value="ADC">ADC</option>
+									<option value="SUPPORT">Support</option>
+									<option value="FILL">Fill</option>
+								</select>
+							</div>
+							<div class="contributeForm">
+								<span>Region</span>
+								<select name="region" style="width: 135px;">
+									<option value="br">BR</option>
+									<option value="eune">EUNE</option>
+									<option value="euw">EUW</option>
+									<option value="kr">KR</option>
+									<option value="lan">LAN</option>
+									<option value="las">LAS</option>
+									<option value="na">NA</option>
+									<option value="oce">OCE</option>
+									<option value="ru">RU</option>
+									<option value="tr">TR</option>
+								</select>
+							</div>
+							<div class="contributeForm">
+								<button type="submit" name="submit" class="button" style="margin-left: 50px;">Submit to Database</button>
+							</div>
+						</div>
+					</form>
+				</div>
 			</div> 
 			<div class="statsPanel" style="width:580px">
 				<div id="currentGameTitle" align="center">Game in Progress</div>
