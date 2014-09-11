@@ -2,6 +2,7 @@
 <title>Submission Confirmation</title>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="shortcut icon" href="logo_test-ico.ico">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
@@ -30,6 +31,9 @@
 					<td><%=Request.QueryString("region")%></td>
 				</tr>
 			</table>
+		</div>
+		<div>
+			<a href="/lol-stream-data/player.asp?stream=<%=Request.QueryString("twitch")%>">Return to <%=Request.QueryString("twitch")%>'s stream.</a>
 		</div>
 	</div>
 </body>

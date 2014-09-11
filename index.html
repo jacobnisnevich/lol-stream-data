@@ -2,6 +2,7 @@
 <title>LoL Stream Data</title>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="shortcut icon" href="logo_test-ico.ico">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
@@ -15,11 +16,95 @@
                 var len = dataWeGotViaJsonp.streams.length;
                 for (var i = 0; i < len; i++) {
                     topStream = dataWeGotViaJsonp.streams[i];
-                    text = '<a href="player.asp?stream=' + topStream.channel.name + '"><b>' + topStream.channel.name + '</b></a><img src="' + topStream.preview.medium + '"">';
-                    $('#featured' + (i + 1)).html(text);
+
+                    text = '<a href="player.asp?stream=' + topStream.channel.name + '"><b>' + topStream.channel.name + '</b></a><a href="player.asp?stream=' + topStream.channel.name + '"><img src="' + topStream.preview.medium + '""></a>';
+                    $('#fTitle' + (i + 1)).html('<a href="player.asp?stream=' + topStream.channel.name + '"><b>' + topStream.channel.name + '</b></a>');
+                    $('#fRole' + (i + 1)).load('GetRole.asp?stream=' + topStream.channel.name);
+                    $('#fImg' + (i + 1)).html('</a><a href="player.asp?stream=' + topStream.channel.name + '"><img src="' + topStream.preview.medium + '""></a>');
                 }
             }
         });
+
+		window.setInterval(function() {
+			checkCheckBoxes();
+		}, 100);
+
+		function checkCheckBoxes() {
+			// TOP
+			if ($("#checkTop").is(':checked')) {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "TOP") {
+						$(this).parent().closest('div').parent().closest('div').show();
+					}
+				});
+			} else {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "TOP") {
+						$(this).parent().closest('div').parent().closest('div').hide();
+					}
+				});
+			}
+
+			// JUNGLER
+			if ($("#checkJungler").is(':checked')) {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "JUNGLER") {
+						$(this).parent().closest('div').parent().closest('div').show();
+					}
+				});
+			} else {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "JUNGLER") {
+						$(this).parent().closest('div').parent().closest('div').hide();
+					}
+				});
+			}
+
+			// MID
+			if ($("#checkMid").is(':checked')) {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "MID") {
+						$(this).parent().closest('div').parent().closest('div').show();
+					}
+				});
+			} else {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "MID") {
+						$(this).parent().closest('div').parent().closest('div').hide();
+					}
+				});
+			}
+
+			// ADC
+			if ($("#checkADC").is(':checked')) {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "ADC") {
+						$(this).parent().closest('div').parent().closest('div').show();
+					}
+				});
+			} else {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "ADC") {
+						$(this).parent().closest('div').parent().closest('div').hide();
+					}
+				});
+			}
+
+			// SUPPORT
+			if ($("#checkSupport").is(':checked')) {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "SUPPORT") {
+						$(this).parent().closest('div').parent().closest('div').show();
+					}
+				});
+			} else {
+				$("span[id^='fRole']").each(function() {
+					if ($(this).text() == "SUPPORT") {
+						$(this).parent().closest('div').parent().closest('div').hide();
+					}
+				});
+			}
+		}
     })
 </script>
 <body>
@@ -30,19 +115,82 @@
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
 	</div>
+	<div id="streamFilter">
+		<form>
+			<div>Top: <input type="checkbox" id="checkTop" checked></div>
+			<div>Jungler: <input type="checkbox" id="checkJungler" checked></div>
+			<div>Mid: <input type="checkbox" id="checkMid" checked></div>
+			<div>ADC: <input type="checkbox" id="checkADC" checked></div>
+			<div>Support: <input type="checkbox" id="checkSupport" checked></div>
+		</form>
+ 	</div>
 	<div id="content">
 		<div id="featured">
 			<div class="contentTitle">Top Streams</div>
 			<div id="featuredStreamsContainer">
-				<div id="featured1"></div>
-				<div id="featured2"></div>
-				<div id="featured3"></div>
-				<div id="featured6"></div>
-				<div id="featured7"></div>
-				<div id="featured8"></div>
-				<div id="featured9"></div>
-				<div id="featured10"></div>
-				<div id="featured11"></div>
+				<div id="featured1">
+					<div id="fText1" style="padding:0px;">
+						<span id="fTitle1" style="float:left"></span>
+						<span id="fRole1" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg1"></div>
+				</div>
+				<div id="featured2">
+					<div id="fText2" style="padding:0px;">
+						<span id="fTitle2" style="float:left"></span>
+						<span id="fRole2" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg2"></div>
+				</div>
+				<div id="featured3">
+					<div id="fText3" style="padding:0px;">
+						<span id="fTitle3" style="float:left"></span>
+						<span id="fRole3" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg3"></div>
+				</div>
+				<div id="featured4">
+					<div id="fText4" style="padding:0px;">
+						<span id="fTitle4" style="float:left"></span>
+						<span id="fRole4" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg4"></div>
+				</div>
+				<div id="featured5">
+					<div id="fText5" style="padding:0px;">
+						<span id="fTitle5" style="float:left"></span>
+						<span id="fRole5" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg5"></div>
+				</div>
+				<div id="featured6">
+					<div id="fText6" style="padding:0px;">
+						<span id="fTitle6" style="float:left"></span>
+						<span id="fRole6" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg6"></div>
+				</div>
+				<div id="featured7">
+					<div id="fText7" style="padding:0px;">
+						<span id="fTitle7" style="float:left"></span>
+						<span id="fRole7" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg7"></div>
+				</div>
+				<div id="featured8">
+					<div id="fText8" style="padding:0px;">
+						<span id="fTitle8" style="float:left"></span>
+						<span id="fRole8" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg8"></div>
+				</div>
+				<div id="featured9">
+					<div id="fText9" style="padding:0px;">
+						<span id="fTitle9" style="float:left"></span>
+						<span id="fRole9" style="float:right;padding: 10px 10px 0px 0px;"></span>
+					</div>
+					<div id="fImg9"></div>
+				</div>
 			</div>
 		</div>
 	</div>

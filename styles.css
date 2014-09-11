@@ -39,6 +39,14 @@ a {
 	font-weight: bold;
 }
 
+#streamFilter {
+	position: absolute;
+	width: 150px;
+	background-color: #EEE;
+	padding: 20px;
+	margin: 20px;
+}
+
 #content {
 	margin: 0px 474px;
 	height: 1090px;
