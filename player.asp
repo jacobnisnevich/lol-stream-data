@@ -103,11 +103,11 @@
 	            success: function(dataWeGotViaJsonp) {
 	            	summoner = summoner.replace(/\s/g, '').toLowerCase();
 	            	id = dataWeGotViaJsonp[summoner].id;
+	            	$("#rank").show();
 			        $.ajax({
 			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 			            dataType: 'json',
 			            success: function(newData) {
-			            	$("#rank").show();
 			                var division = newData[id][0].entries[0].division;
 			                var tier = newData[id][0].tier;
 			                var leaguename = newData[id][0].name;
@@ -119,6 +119,11 @@
 			                $('#rankLP').html(leaguepoints);
 			                $('#rankLeague').html(leaguename);
 			                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+			            },
+			            error: function(xhr, textStatus, errorThrown) {
+			            	$('#rankLeague').html('Summoner service unavailable');
+			            	$('#rankLeague').css("font-size", "16px");
+			            	$('#rankLeague').css("padding", "25px");
 			            }
 			        });
 				}
@@ -145,7 +150,7 @@
 				            url: 'https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
 				            dataType: 'json',
 				            success: function(data) {
-				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '');
+				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '').replace(/\./g, '');
 			            		for (var team1 = 0; team1 < 5; team1++) {
 			            			(function (team1) {
 			            				if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
@@ -174,10 +179,18 @@
 	        			});	
 					})(pick);
             	}
-			}
+			},
+            error: function(xhr, textStatus, errorThrown) {
+            	$('#currentGameTitle').html('No games in progress found');
+            	$('#currentGame').hide();
+            	$('#currentGameTitle').css("font-weight", "bold");
+            	$('#currentGameTitle').css("padding", "25px");
+            }
 		});
 
-		updateChampStats();
+		window.setInterval(function() {
+			updateChampStats();
+		}, 5000);
 
 		update();
     })
@@ -260,6 +273,8 @@
 			            dataType: 'json',
 			            success: function(data) {
 			                champs = data.champions;
+			                $('#championError').hide();
+			                $('#currentChampDataComplete').show();
 
 			                for (var i = 0; i < champs.length; i++) {
 			                	(function (i) {
@@ -280,14 +295,23 @@
 			                	}
 			                	})(i);
 			                }
-
-			                window.setTimeout(updateChampStats, 3000);
+			            },
+			            error: function(xhr, textStatus, errorThrown) {
+			            	$('#currentChampDataComplete').hide();
+			            	$('#championError').show();
+			            	$('#championError').html('No champion data found for this summoner');
+			            	$('#championError').css("font-weight", "bold");
+			            	$('#championError').css("padding", "25px");
 			            }
 			        });
 	            }
 			});
 		} else {
-			window.setTimeout(updateChampStats, 1000);
+			$('#currentChampDataComplete').hide();
+			$('#championError').show();
+        	$('#championError').html('No champion data found for this summoner');
+        	$('#championError').css("font-weight", "bold");
+        	$('#championError').css("padding", "25px");
 		}
 	}
 
@@ -424,7 +448,8 @@
 				<div id="currentRegion" style="display:none"></div>
 				<div id="currentSummId" style="display:none"></div>
 				<div id="currentChampId" style="display:none"></div>
-				<div>
+				<div id="championError" style="display:none" align="center"></div>
+				<div id="currentChampDataComplete">
 					<div id="currentChamp">
 						<img id="currentChampImg"></img>
 					</div>

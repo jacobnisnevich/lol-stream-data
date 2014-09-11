@@ -24,87 +24,41 @@
                 }
             }
         });
-
-		window.setInterval(function() {
-			checkCheckBoxes();
-		}, 100);
-
-		function checkCheckBoxes() {
-			// TOP
-			if ($("#checkTop").is(':checked')) {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "TOP") {
-						$(this).parent().closest('div').parent().closest('div').show();
-					}
-				});
-			} else {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "TOP") {
-						$(this).parent().closest('div').parent().closest('div').hide();
-					}
-				});
-			}
-
-			// JUNGLER
-			if ($("#checkJungler").is(':checked')) {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "JUNGLER") {
-						$(this).parent().closest('div').parent().closest('div').show();
-					}
-				});
-			} else {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "JUNGLER") {
-						$(this).parent().closest('div').parent().closest('div').hide();
-					}
-				});
-			}
-
-			// MID
-			if ($("#checkMid").is(':checked')) {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "MID") {
-						$(this).parent().closest('div').parent().closest('div').show();
-					}
-				});
-			} else {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "MID") {
-						$(this).parent().closest('div').parent().closest('div').hide();
-					}
-				});
-			}
-
-			// ADC
-			if ($("#checkADC").is(':checked')) {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "ADC") {
-						$(this).parent().closest('div').parent().closest('div').show();
-					}
-				});
-			} else {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "ADC") {
-						$(this).parent().closest('div').parent().closest('div').hide();
-					}
-				});
-			}
-
-			// SUPPORT
-			if ($("#checkSupport").is(':checked')) {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "SUPPORT") {
-						$(this).parent().closest('div').parent().closest('div').show();
-					}
-				});
-			} else {
-				$("span[id^='fRole']").each(function() {
-					if ($(this).text() == "SUPPORT") {
-						$(this).parent().closest('div').parent().closest('div').hide();
-					}
-				});
-			}
-		}
+		$("#checkTop").change(function() {
+			$("span[id^='fRole']").each(function() {
+				if ($(this).text() == "TOP") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkJungler").change(function() {
+			$("span[id^='fRole']").each(function() {
+				if ($(this).text() == "JUNGLER") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkMid").change(function() {
+			$("span[id^='fRole']").each(function() {
+				if ($(this).text() == "MID") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkADC").change(function() {
+			$("span[id^='fRole']").each(function() {
+				if ($(this).text() == "ADC") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkSupport").change(function() {
+			$("span[id^='fRole']").each(function() {
+				if ($(this).text() == "SUPPORT") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
     })
 </script>
 <body>
