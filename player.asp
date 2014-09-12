@@ -211,6 +211,24 @@
         	$('#currentGame').hide();
 		}
 
+        $.ajax({
+			url: 'Notice.asp',
+			dataType: 'json',
+			success: function(notice) {
+				$('#noticeText').empty();
+                if (notice.status == "active") {
+                	$('#notice').toggle("slide");
+                	$('#noticeText').html(notice.message);
+                	$('#noticeClose').show();
+                }
+			}
+		});
+
+		$('#noticeClose').click(function() {
+			$('#notice').toggle("slide");
+			$('#noticeClose').hide();
+		});
+
 		window.setInterval(function() {
 			updateChampStats();
 		}, 5000);
@@ -345,6 +363,10 @@
 		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<%=Request.QueryString("stream")%>&amp;popout_chat=true" height="910px" width="473px"></iframe>
 	</div>
 	<div id="content">
+		<div id="notice">
+			<span id="noticeClose">x</span>
+			<span id="noticeText">Current game statistics are currently unavailable due to issues with the League of Legends spectator mode.</span>
+		</div>
 		<div id="streamDescription">
 			<span id="streamTitle"><%=Request.QueryString("stream")%></span>
 			<span id="divisionRank"></span>

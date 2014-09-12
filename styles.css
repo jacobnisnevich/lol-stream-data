@@ -89,6 +89,31 @@ a {
 
 /* PLAYER.ASP */
 
+#notice {
+	display: none;
+	background-color: rgb(241, 141, 141);
+	padding: 10px;
+	font-family: 'Open Sans';
+	font-size: 14px;
+	margin-bottom: 10px;
+	border-left: 5px solid red;
+}
+
+#noticeClose {
+    float: right;
+    display: inline-block;
+    padding: 0px 7px 2px;
+    background: #FF9C9C;
+}
+
+#noticeClose:hover {
+    float: right;
+    display: inline-block;
+    padding: 0px 7px 2px;
+    background: #E66F6F;
+    cursor: hand;
+}
+
 #streamDescription {
 	padding-bottom: 5px;
 }
@@ -215,6 +240,7 @@ a {
 	font-weight: bold;
 	position: relative;
 	padding: 10px;
+	z-index: 0;
 }
 
 .button:hover {
