@@ -1,3 +1,10 @@
+/* FONTS */
+@font-face {
+	font-family: 'Noodle';
+	src: 
+		url('big_noodle_titling.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}
+
 /* INDEX.HTML */
 
 body {
@@ -20,10 +27,14 @@ a {
 	background-color: #333;
 	color: #EEE;
 	height: 50px;
+	position: fixed;
+	width: 100%;
+	box-shadow: 5px 0px 25px #333;
 }
 
-#topBar span {
-	padding: 9px 56px;
+#topBar span:not(:first-child) {
+	margin: 3px 15px;
+	padding: 10px 40px 7px;
 }
 
 #topBar span a{
@@ -35,23 +46,34 @@ a {
 }
 
 #logo {
-	font-size: 32px;
-	font-weight: bold;
+	font-size: 36px;
+	font-family: 'Noodle';
+	padding: 25px;
+	line-height: 1.3;
 }
 
 #streamFilter {
-	position: absolute;
+	position: fixed;
 	width: 150px;
 	background-color: #EEE;
 	padding: 20px;
 	margin: 20px;
+	top: 50px;
+}
+
+#streamFilter form {
+	font-size: 16px;
+}
+
+#streamFilter input {
+	float: right;
 }
 
 #content {
 	margin: 0px 474px;
 	height: 1090px;
 	background-color: #EEE;
-	padding: 20px 24px;
+	padding: 60px 24px;
 }
 
 #featuredStreamsContainer div {
@@ -112,6 +134,7 @@ a {
 	height: 32px;
 	width: 32px;
 	padding: 0px 5px;
+	vertical-align: middle;
 }
 
 #teamOne {
@@ -124,7 +147,7 @@ a {
 
 .player {
 	width: 200px;
-	padding: 7px;
+	padding: 9px;
 }
 
 .player span {
@@ -162,8 +185,11 @@ a {
 }
 
 #chat {
-	position: absolute;
-	margin: 20px;
+	position: fixed;
+	border-left: 1px solid #666;
+	top: 50px;
+	right: 0px;
+	z-index: -1;
 }
 
 /* CONTRIBUTE.ASP */

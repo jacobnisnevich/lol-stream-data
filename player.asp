@@ -2,7 +2,7 @@
 <title><%=Request.QueryString("stream")%></title>
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,600' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<link rel="shortcut icon" href="logo_test-ico.ico">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -58,6 +58,12 @@
 		region = rs("region")
 		role = rs("role")
 
+		If region = "kr" Then
+
+			Exit Do
+
+		End If
+
 	    jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
 		'get data from LoL api based on summoner
@@ -92,7 +98,10 @@
 		var region = '<%=region%>'
 		$("#currentRegion").html(region);
         var id = getSummonerID(summoner, region);
-        
+
+        var name = "#topBar";
+		var menuYloc = null;
+
         if (summoner == "") {
 			$("#contributeFormDiv").show();
 		}
@@ -130,63 +139,77 @@
 	        });
 		}
 
-		$.ajax({
-			url: 'https://community-league-of-legends.p.mashape.com/api/v1.0/' + region + '/summoner/retrieveInProgressSpectatorGameInfo/' + summoner,
-			dataType: 'json',
-			headers: {"X-Mashape-Authorization" : "ZtLlNdZge6mshmy7fLdhxNt8YfP2p1FRaJ4jsn2YXW1NJdCqnc"},
-			success: function(dataWeGotViaJsonp) {
-            	console.log(dataWeGotViaJsonp);          	
-            	firstTeam = dataWeGotViaJsonp.game.teamOne.array;
-            	secondTeam = dataWeGotViaJsonp.game.teamTwo.array;
-            	for (var i = 0; i < 5; i++) {
-            		$('#one' + (i + 1)).html(firstTeam[i].summonerName);
-            		$('#two' + (i + 1)).html(secondTeam[i].summonerName);
-            	}
-            	champSelect = dataWeGotViaJsonp.game.playerChampionSelections.array;
-            	for (var pick = 0; pick < 10; pick++) {
-            		(function (pick) {
-	            		champID = champSelect[pick].championId;
-	            		$.ajax({
-				            url: 'https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-				            dataType: 'json',
-				            success: function(data) {
-				            	champName = data.name.replace(/\s/g, '').replace(/'/g, '').replace(/\./g, '');
-			            		for (var team1 = 0; team1 < 5; team1++) {
-			            			(function (team1) {
-			            				if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
-					            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+		if (region != "kr") {
+			$.ajax({
+				url: 'https://community-league-of-legends.p.mashape.com/api/v1.0/' + region + '/summoner/retrieveInProgressSpectatorGameInfo/' + summoner,
+				dataType: 'json',
+				headers: {"X-Mashape-Authorization" : "ZtLlNdZge6mshmy7fLdhxNt8YfP2p1FRaJ4jsn2YXW1NJdCqnc"},
+				success: function(dataWeGotViaJsonp) {
+	            	console.log(dataWeGotViaJsonp);
+	            	if (dataWeGotViaJsonp.success == "false") {
+	            		$('#currentGameTitle').html('No games in progress found');
+		            	$('#currentGameTitle').css("font-weight", "bold");
+		            	$('#currentGameTitle').css("padding", "25px");
+		            	$('#currentGame').hide();
+		            	return;
+	            	}
+	            	firstTeam = dataWeGotViaJsonp.game.teamOne.array;
+	            	secondTeam = dataWeGotViaJsonp.game.teamTwo.array;
+	            	for (var i = 0; i < 5; i++) {
+	            		$('#one' + (i + 1)).html(firstTeam[i].summonerName);
+	            		$('#two' + (i + 1)).html(secondTeam[i].summonerName);
+	            	}
+	            	champSelect = dataWeGotViaJsonp.game.playerChampionSelections.array;
+	            	for (var pick = 0; pick < 10; pick++) {
+	            		(function (pick) {
+		            		champID = champSelect[pick].championId;
+		            		$.ajax({
+					            url: 'https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/' + champID + '?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+					            dataType: 'json',
+					            success: function(data) {
+					            	champName = data.name.replace(/\s/g, '').replace(/'/g, '').replace(/\./g, '');
+				            		for (var team1 = 0; team1 < 5; team1++) {
+				            			(function (team1) {
+				            				if ($('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+						            			$("#one" + (team1 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
 
-					            			if (summoner.replace(/\s/g, '').toLowerCase() == $('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase()) {
-					            				$("#currentChampId").html(champSelect[pick].championId);
-					            				$('#one' + (team1 + 1)).html('<b>' + $('#one' + (team1 + 1)).html() + '</b>')
-					            			}
-					            		}
-					            	})(team1);
-			            		}
-			            		for (var team2 = 0; team2 < 5; team2++) {
-			            			(function (team2) {
-				            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
-				            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
+						            			if (summoner.replace(/\s/g, '').toLowerCase() == $('#one' + (team1 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+						            				$("#currentChampId").html(champSelect[pick].championId);
+						            				$('#one' + (team1 + 1)).html('<b style="line-height: 0px;">' + $('#one' + (team1 + 1)).html() + '</b>')
+						            			}
+						            		}
+						            	})(team1);
+				            		}
+				            		for (var team2 = 0; team2 < 5; team2++) {
+				            			(function (team2) {
+					            			if ($('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase() == champSelect[pick].summonerInternalName) {
+					            				$("#two" + (team2 + 1) + "Img").attr("src","images/champions/" + champName + "Square.png");
 
-				            				if (summoner.replace(/\s/g, '').toLowerCase() == $('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase()) {
-					            				$("#currentChampId").html(champSelect[pick].championId);
-					            				$('#two' + (team2 + 1)).html('<b>' + $('#two' + (team2 + 1)).html() + '</b>')
-					            			}
-					            		}
-			            			})(team2);
-			            		}
-			            	}
-	        			});	
-					})(pick);
-            	}
-			},
-            error: function(xhr, textStatus, errorThrown) {
-            	$('#currentGameTitle').html('No games in progress found');
-            	$('#currentGame').hide();
-            	$('#currentGameTitle').css("font-weight", "bold");
-            	$('#currentGameTitle').css("padding", "25px");
-            }
-		});
+					            				if (summoner.replace(/\s/g, '').toLowerCase() == $('#two' + (team2 + 1)).html().replace(/\s/g, '').toLowerCase()) {
+						            				$("#currentChampId").html(champSelect[pick].championId);
+						            				$('#two' + (team2 + 1)).html('<b style="line-height: 0px;">' + $('#two' + (team2 + 1)).html() + '</b>')
+						            			}
+						            		}
+				            			})(team2);
+				            		}
+				            	}
+		        			});	
+						})(pick);
+	            	}
+				},
+	            error: function(xhr, textStatus, errorThrown) {
+	            	$('#currentGameTitle').html('No games in progress found');
+	            	$('#currentGame').hide();
+	            	$('#currentGameTitle').css("font-weight", "bold");
+	            	$('#currentGameTitle').css("padding", "25px");
+	            }
+			});
+		} else {
+			$('#currentGameTitle').html('The Korean region is currently unsupported');
+        	$('#currentGameTitle').css("font-weight", "bold");
+        	$('#currentGameTitle').css("padding", "25px");
+        	$('#currentGame').hide();
+		}
 
 		window.setInterval(function() {
 			updateChampStats();
@@ -215,44 +238,6 @@
                 return dataWeGotViaJsonp[summoner].id;
             }
         });
-	}
-
-	function updateRank(summoner, region, id) {
-		if (summoner == "") {
-			$("#contributeFormDiv").show();
-		}
-		else {
-			$.ajax({
-	            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-	            dataType: 'json',
-	            success: function(dataWeGotViaJsonp) {
-	            	summoner = summoner.replace(/\s/g, '').toLowerCase();
-	            	id = dataWeGotViaJsonp[summoner].id;
-
-			        $.ajax({
-			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-			            dataType: 'json',
-			            success: function(newData) {
-			                var division = newData[id][0].entries[0].division;
-			                var tier = newData[id][0].tier;
-			                var leaguename = newData[id][0].name;
-			                var rank = tier + ' ' + division;
-			                var text = role + ' | <b>' + rank + '</b>';
-			                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
-
-			                $('#divisionRank').html(text);
-			                $('#rankInfo').html(rank);
-			                $('#rankLP').html(leaguepoints);
-			                $('#rankLeague').html(leaguename);
-			                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
-
-			                window.setTimeout(updateRank(region, id), 3000);
-			            }
-			        });
-				}
-	        });
-			$("#rank").show();
-		}
 	}
 
 	function updateChampStats() {
@@ -357,7 +342,7 @@
 		<span>About</span>
 	</div>
 	<div id="chat">
-		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<%=Request.QueryString("stream")%>&amp;popout_chat=true" height="700" width="425"></iframe>
+		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<%=Request.QueryString("stream")%>&amp;popout_chat=true" height="910px" width="473px"></iframe>
 	</div>
 	<div id="content">
 		<div id="streamDescription">

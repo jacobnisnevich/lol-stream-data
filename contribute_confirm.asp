@@ -3,6 +3,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="shortcut icon" href="logo_test-ico.ico">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
