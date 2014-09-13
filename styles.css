@@ -43,6 +43,11 @@ a {
 
 #topBar span:hover:not(:first-child) {
 	background-color: #555;
+	-webkit-transition: all .08s ease-in;
+	-moz-transition: all .08s ease-in;
+	-ms-transition: all .08s ease-in;
+	-o-transition: all .08s ease-in;
+	transition: all .08s ease-in;
 }
 
 #logo {
@@ -59,6 +64,7 @@ a {
 	padding: 20px;
 	margin: 20px;
 	top: 50px;
+	box-shadow: 1px 1px 1px #CCC;
 }
 
 #streamFilter form {
