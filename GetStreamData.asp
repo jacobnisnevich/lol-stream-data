@@ -41,12 +41,15 @@
 	'set recordset rs to SQL command output
 	Set rs = command.Execute()
 
-	Set oJSON = New aspJSON
+	Set readJSON = New aspJSON
+
+	champID = ""
 
 	Do While Not rs.EOF
 
-		summoner = rs("summoner")
+		summoner = LCase(rs("summoner"))
 		region = rs("region")
+		role = rs("role")
 
 		If region = "kr" Then
 			Exit Do
@@ -55,14 +58,16 @@
 	    jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
 		'get data from LoL api based on summoner
-		If Not IsNull(jsonstring) Then
-			oJSON.loadJSON(jsonstring)
+		If Not IsNull(jsonstring) And Not IsEmpty(jsonstring) Then
+			readJSON.loadJSON(jsonstring)
+        Else 
+            Exit Do
 		End If
 
 		'if summoner is in a game, exit loop, otherwise move on to next record
-		If oJSON.data("success") <> "false" Then
-			For Each player In oJSON.data("game").item("playerChampionSelections").item("array")
-				Set this = oJSON.data("game").item("playerChampionSelections").item("array").item(player)
+		If readJSON.data("success") <> "false" Then
+			For Each player In readJSON.data("game").item("playerChampionSelections").item("array")
+				Set this = readJSON.data("game").item("playerChampionSelections").item("array").item(player)
 				If this.item("summonerInternalName") = summoner Then
 					champID = CStr(this.item("championId"))
 					Exit For
@@ -78,14 +83,41 @@
 
 	rs.Close : Set rs = Nothing : Set command = Nothing : myConn.Close : Set myConn = Nothing
 
-	'load champ img string from champion id
-	jsonstring = GetTextFromUrl("https://na.api.pvp.net/api/lol/static-data/na/v1.2/champion/" + champID + "?champData=blurb&api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+    champName = ""
 
-	If Not IsNull(jsonstring) Then
-		oJSON.loadJSON(jsonstring)
-	End If
+    If champID <> "" Then
+	    'open ADODB connection to database
+	    Set myConn = Server.CreateObject("ADODB.Connection")
+	    myConn.open(GetConnectionString())
+	    set rs = Server.CreateObject("ADODB.recordset")
 
-	Response.Write Replace(Replace(Replace(oJSON.data("name"), " ", ""), ".", ""), "'", "")
+	    set command = Server.CreateObject("ADODB.Command")
+	    command.CommandText = "SELECT * FROM lsd_champions WHERE id = ?"
+	    command.CommandType = 1 'adCmdText
+	    command.ActiveConnection = myConn
+
+	    set twitchParam = command.CreateParameter("@id", 3, &H0001, 255, champID)
+	    command.Parameters.Append twitchParam
+
+	    'set recordset rs to SQL command output
+	    Set rs = command.Execute()
+
+	    champName = rs("name")
+        
+        rs.Close : Set rs = Nothing : Set command = Nothing : myConn.Close : Set myConn = Nothing
+    End If
+
+	Set writeJSON = New aspJSON
+
+	With writeJSON.data
+
+		.Add "champion", champName
+		.Add "region", region
+		.Add "role", role
+
+	End With
+
+	Response.Write writeJSON.JSONoutput()
 
 	Response.End()
 %> 

@@ -11,7 +11,7 @@
 <script id="streamInstance" type="text/x-handlebars-template">
 	<div class="featuredInstance">
 		<div class="fText" style="padding:0px;">
-			<img class="fChamp" src="{{ champImg }}">
+			<img class="fChamp" src="{{ champImg }}" style="{{ champImgStyle }}">
 			<span class="fTitle" style="float:left">
 				<a href="player.asp?stream={{ stream }}">
 					<b>{{ stream }}</b>
@@ -36,17 +36,29 @@
                 for (var i = 0; i < 12; i++) {
                 	(function (i) {
 	                    $.ajax({
-				            url: 'GetRole.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
-				            success: function(role) {
-				            	topStream = dataWeGotViaJsonp.streams[i]; 
-				            	data = {
-		                    		champImg: "",
-		                    		stream: topStream.channel.name,
-		                    		role: role,
-		                    		streamImg: topStream.preview.medium
-		                    	};
+				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
+				            dataType: 'json',
+				            success: function(streamData) {			           
+				            	topStream = dataWeGotViaJsonp.streams[i];
+				            	if (streamData.champion != "") {
+					            	data = {
+			                    		champImg: 'images/champions/' + streamData.champion + 'Square.png',
+			                    		champImgStyle: 'width:24px; height:24px; float: left; padding: 13px 5px 5px 0px;',
+			                    		stream: topStream.channel.name,
+			                    		role: streamData.role,
+			                    		streamImg: topStream.preview.medium
+			                    	};
+			                    } else {
+			                    	data = {
+			                    		champImg: '',
+			                    		champImgStyle: '',
+			                    		stream: topStream.channel.name,
+			                    		role: streamData.role,
+			                    		streamImg: topStream.preview.medium
+			                    	};
+			                    }
 		                    	$("#featuredStreamsContainer").append(template(data));
-				            }
+		                    }
 				        });
 					}) (i);
                 }

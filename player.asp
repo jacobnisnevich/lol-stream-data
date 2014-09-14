@@ -67,9 +67,13 @@
 	    jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
 		'get data from LoL api based on summoner
-		If Not IsNull(jsonstring) Then
+		If Not IsNull(jsonstring) And Not IsEmpty(jsonstring) Then
 
 			oJSON.loadJSON(jsonstring)
+
+        Else 
+        
+            Exit Do
 
 		End If
 
