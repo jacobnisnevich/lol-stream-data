@@ -102,42 +102,44 @@
         var name = "#topBar";
 		var menuYloc = null;
 
-        if (summoner == "") {
-			$("#contributeFormDiv").show();
-		}
-		else {
-	        $.ajax({
-	            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-	            dataType: 'json',
-	            success: function(dataWeGotViaJsonp) {
-	            	summoner = summoner.replace(/\s/g, '').toLowerCase();
-	            	id = dataWeGotViaJsonp[summoner].id;
-	            	$("#rank").show();
-			        $.ajax({
-			            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
-			            dataType: 'json',
-			            success: function(newData) {
-			                var division = newData[id][0].entries[0].division;
-			                var tier = newData[id][0].tier;
-			                var leaguename = newData[id][0].name;
-			                var rank = tier + ' ' + division;
-			                var text = role + ' | <b>' + rank + '</b>';
-			                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
-			                $('#divisionRank').html(text);
-			                $('#rankInfo').html(rank);
-			                $('#rankLP').html(leaguepoints);
-			                $('#rankLeague').html(leaguename);
-			                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
-			            },
-			            error: function(xhr, textStatus, errorThrown) {
-			            	$('#rankLeague').html('Summoner service unavailable');
-			            	$('#rankLeague').css("font-size", "16px");
-			            	$('#rankLeague').css("padding", "25px");
-			            }
-			        });
-				}
-	        });
-		}
+		window.setInterval(function() {
+	        if (summoner == "") {
+				$("#contributeFormDiv").show();
+			}
+			else {
+		        $.ajax({
+		            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v1.4/summoner/by-name/' + summoner + '?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+		            dataType: 'json',
+		            success: function(dataWeGotViaJsonp) {
+		            	summoner = summoner.replace(/\s/g, '').toLowerCase();
+		            	id = dataWeGotViaJsonp[summoner].id;
+		            	$("#rank").show();
+				        $.ajax({
+				            url: 'https://' + region + '.api.pvp.net/api/lol/' + region + '/v2.5/league/by-summoner/' + id + '/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643',
+				            dataType: 'json',
+				            success: function(newData) {
+				                var division = newData[id][0].entries[0].division;
+				                var tier = newData[id][0].tier;
+				                var leaguename = newData[id][0].name;
+				                var rank = tier + ' ' + division;
+				                var text = role + ' | <b>' + rank + '</b>';
+				                var leaguepoints = newData[id][0].entries[0].leaguePoints + ' LP';
+				                $('#divisionRank').html(text);
+				                $('#rankInfo').html(rank);
+				                $('#rankLP').html(leaguepoints);
+				                $('#rankLeague').html(leaguename);
+				                $("#rankImg").attr("src","images/divisions/" + tier + "_" + numeralToNum(division) + ".png");
+				            },
+				            error: function(xhr, textStatus, errorThrown) {
+				            	$('#rankLeague').html('Summoner service unavailable');
+				            	$('#rankLeague').css("font-size", "16px");
+				            	$('#rankLeague').css("padding", "25px");
+				            }
+				        });
+					}
+		        });
+			}
+		}, 5000);
 
 		window.setInterval(function() {
 			if (region != "kr") {
