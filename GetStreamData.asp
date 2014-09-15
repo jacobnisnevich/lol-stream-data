@@ -47,7 +47,7 @@
 
 	Do While Not rs.EOF
 
-		summoner = LCase(rs("summoner"))
+		summoner = Replace(LCase(rs("summoner")), " ", "")
 		region = rs("region")
 		role = rs("role")
 
@@ -65,7 +65,7 @@
 		End If
 
 		'if summoner is in a game, exit loop, otherwise move on to next record
-		If readJSON.data("success") <> "false" Then
+		If Not IsNull(readJSON.data("game")) And Not IsEmpty(readJSON.data("game")) Then
 			For Each player In readJSON.data("game").item("playerChampionSelections").item("array")
 				Set this = readJSON.data("game").item("playerChampionSelections").item("array").item(player)
 				If this.item("summonerInternalName") = summoner Then

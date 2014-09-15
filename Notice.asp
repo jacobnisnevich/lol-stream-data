@@ -4,8 +4,8 @@
 
 	With oJSON.data
 
-		.Add "status", "inactive"
-		.Add "message", "Current game statistics are temporarily unavailable due to issues with the League of Legends spectator mode."
+		.Add "status", "active"
+		.Add "message", "Current game statistics are temporarily unavailable due to issues with the in-game API"
 
 	End With
 
