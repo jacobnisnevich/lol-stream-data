@@ -124,7 +124,7 @@
             url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
             dataType: 'jsonp',
             success: function(dataWeGotViaJsonp) {
-                for (var i = 0; i < 25; i++) {
+                for (var i = 0; i < 50; i++) {
                 	(function (i) {
 	                	if (roleCount == 5) {
 		            		return;
