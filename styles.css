@@ -30,6 +30,7 @@ a {
 	position: fixed;
 	width: 100%;
 	box-shadow: 5px 0px 25px #333;
+	z-index: 50;
 }
 
 #topBar span:not(:first-child) {
@@ -128,6 +129,35 @@ a {
 	float: right;
 }
 
+#suggested {
+	height: 910px;
+	width: 443px;
+	top: 50px;
+	left: 0px;
+	position: fixed;
+	background-color: #EEE;
+	border-right: 1px solid #666;
+	padding: 5px;
+}
+
+.suggestedCategory {
+	padding-bottom: 10px;
+	background-color: #E1E1E1;
+}
+
+.suggestedTitle {
+	font-size: 24px;
+	padding: 10px;
+}
+
+.suggestion {
+	font-family: 'Open Sans';
+	font-size: 16px;
+	padding: 4px;
+	margin-left: 20px;
+	width: 350px;
+}
+
 #stats {
 	width: 940px;
 }
@@ -220,7 +250,10 @@ a {
 	border-left: 1px solid #666;
 	top: 50px;
 	right: 0px;
-	z-index: -1;
+}
+
+#chat .chat-room, .chat-header, .ember-chat-container {
+	background: #DDD;
 }
 
 /* CONTRIBUTE.ASP */

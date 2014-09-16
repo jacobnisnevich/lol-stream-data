@@ -6,6 +6,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400' rel='stylesheet' type='text/css'>
 	<link rel="shortcut icon" href="logo_test-ico.ico">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
 </head>
 <!--#include file="includes/aspJSON1.17.asp" -->
 <!--#include file="connect.asp" -->
@@ -92,8 +93,19 @@
 
 %>
 
+<script id="streamSuggestion" type="text/x-handlebars-template">
+	<div class="suggestion">
+		<span><img src="{{ img }}" style="{{ imgStyle }}"/></span>
+		<span style="{{ textStyle }}"><a href="/player.asp?stream={{ stream }}">{{ stream }}</a></span>
+		<span style="float:right">{{ viewers }} viewers</span>
+	</div>
+</script>
+
 <script>
 	$(document).ready(function(){
+		var templateScript = $("#streamSuggestion").html();
+		var template = Handlebars.compile (templateScript);
+
 		$("#rank").hide();
 		$("#contributeFormDiv").hide();
 
@@ -105,6 +117,50 @@
 
         var name = "#topBar";
 		var menuYloc = null;
+
+		var roleCount = 0;
+
+		$.ajax({
+            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
+            dataType: 'jsonp',
+            success: function(dataWeGotViaJsonp) {
+                for (var i = 0; i < 25; i++) {
+                	(function (i) {
+	                	if (roleCount == 5) {
+		            		return;
+		            	}
+	                    $.ajax({
+				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
+				            dataType: 'json',
+				            success: function(streamData) {			           
+				            	topStream = dataWeGotViaJsonp.streams[i];
+				            	if (streamData.role == role) {
+				            		if (streamData.champion != "") {
+					            		data = {
+					            			stream: topStream.channel.name,
+					            			img: 'images/champions/' + streamData.champion + 'Square.png',
+					            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
+					            			textStyle: '',
+					            			viewers: topStream.viewers
+					            		};
+					            	} else {
+					            		data = {
+					            			stream: topStream.channel.name,
+					            			img: '',
+					            			imgStyle: '',
+					            			textStyle: 'padding-left: 30px',
+					            			viewers: topStream.viewers
+					            		};
+					            	}
+				            		roleCount++;
+				            		$("#suggestRole").append(template(data));
+					            }
+		                    }
+				        });
+					}) (i);
+                }
+            }
+        });
 
 		window.setInterval(function() {
 	        if (summoner == "") {
@@ -372,6 +428,11 @@
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
+	</div>
+	<div id="suggested">
+		<div class="suggestedCategory" id="suggestRole">
+			<div class="suggestedTitle">Top streamers with the same role:</div>
+		</div>
 	</div>
 	<div id="chat">
 		<iframe frameborder="0" scrolling="no" id="chat_embed" src="http://twitch.tv/chat/embed?channel=<%=Request.QueryString("stream")%>&amp;popout_chat=true" height="910px" width="473px"></iframe>
