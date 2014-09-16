@@ -27,13 +27,17 @@
 		var templateScript = $("#streamInstance").html();
 		var template = Handlebars.compile (templateScript);
 
+		var num = 30;
+
+		// num = <%=Request.Querystring("n")%>
+
         $.ajax({
             url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
             dataType: 'jsonp',
             success: function(dataWeGotViaJsonp) {
                 var text = '';
                 var len = dataWeGotViaJsonp.streams.length;
-                for (var i = 0; i < 12; i++) {
+                for (var i = 0; i < num; i++) {
                 	(function (i) {
 	                    $.ajax({
 				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,

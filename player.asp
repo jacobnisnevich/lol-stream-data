@@ -96,7 +96,7 @@
 <script id="streamSuggestion" type="text/x-handlebars-template">
 	<div class="suggestion">
 		<span><img src="{{ img }}" style="{{ imgStyle }}"/></span>
-		<span style="{{ textStyle }}"><a href="/player.asp?stream={{ stream }}">{{ stream }}</a></span>
+		<span style="{{ textStyle }}"><a href="/lol-stream-data/player.asp?stream={{ stream }}">{{ stream }}</a></span>
 		<span style="float:right">{{ viewers }} viewers</span>
 	</div>
 </script>
@@ -192,8 +192,6 @@
 				            },
 				            error: function(xhr, textStatus, errorThrown) {
 				            	$('#rankLeague').html('Summoner service unavailable');
-				            	$('#rankLeague').css("font-size", "16px");
-				            	$('#rankLeague').css("padding", "25px");
 				            }
 				        });
 					}
