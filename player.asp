@@ -119,6 +119,7 @@
 		var menuYloc = null;
 
 		var roleCount = 0;
+		var regionCount = 0;
 
 		$.ajax({
             url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
@@ -154,6 +155,48 @@
 					            	}
 				            		roleCount++;
 				            		$("#suggestRole").append(template(data));
+					            }
+		                    }
+				        });
+					}) (i);
+                }
+            }
+        });
+
+		$.ajax({
+            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
+            dataType: 'jsonp',
+            success: function(dataWeGotViaJsonp) {
+                for (var i = 0; i < 50; i++) {
+                	(function (i) {
+	                	if (regionCount == 5) {
+		            		return;
+		            	}
+	                    $.ajax({
+				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
+				            dataType: 'json',
+				            success: function(streamData) {			           
+				            	topStream = dataWeGotViaJsonp.streams[i];
+				            	if (streamData.region == region) {
+				            		if (streamData.champion != "") {
+					            		data = {
+					            			stream: topStream.channel.name,
+					            			img: 'images/champions/' + streamData.champion + 'Square.png',
+					            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
+					            			textStyle: '',
+					            			viewers: topStream.viewers
+					            		};
+					            	} else {
+					            		data = {
+					            			stream: topStream.channel.name,
+					            			img: '',
+					            			imgStyle: '',
+					            			textStyle: 'padding-left: 30px',
+					            			viewers: topStream.viewers
+					            		};
+					            	}
+				            		regionCount++;
+				            		$("#suggestRegion").append(template(data));
 					            }
 		                    }
 				        });
@@ -430,6 +473,9 @@
 	<div id="suggested">
 		<div class="suggestedCategory" id="suggestRole">
 			<div class="suggestedTitle">Top streamers with the same role:</div>
+		</div>
+		<div class="suggestedCategory" id="suggestRegion">
+			<div class="suggestedTitle">Top streamers in the same region:</div>
 		</div>
 	</div>
 	<div id="chat">
