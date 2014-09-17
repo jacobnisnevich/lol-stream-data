@@ -127,35 +127,37 @@
             success: function(dataWeGotViaJsonp) {
                 for (var i = 0; i < 50; i++) {
                 	(function (i) {
-	                	if (roleCount == 5) {
-		            		return;
-		            	}
 	                    $.ajax({
 				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
 				            dataType: 'json',
-				            success: function(streamData) {			           
-				            	topStream = dataWeGotViaJsonp.streams[i];
-				            	if (streamData.role == role) {
-				            		if (streamData.champion != "") {
-					            		data = {
-					            			stream: topStream.channel.name,
-					            			img: 'images/champions/' + streamData.champion + 'Square.png',
-					            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
-					            			textStyle: '',
-					            			viewers: topStream.viewers
-					            		};
-					            	} else {
-					            		data = {
-					            			stream: topStream.channel.name,
-					            			img: '',
-					            			imgStyle: '',
-					            			textStyle: 'padding-left: 30px',
-					            			viewers: topStream.viewers
-					            		};
-					            	}
-				            		roleCount++;
-				            		$("#suggestRole").append(template(data));
-					            }
+				            success: function(streamData) {
+				            	if (roleCount == 5) {
+				            		return;
+				            	}
+				            	else {
+					            	topStream = dataWeGotViaJsonp.streams[i];
+					            	if (streamData.role == role) {
+					            		if (streamData.champion != "") {
+						            		data = {
+						            			stream: topStream.channel.name,
+						            			img: 'images/champions/' + streamData.champion + 'Square.png',
+						            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
+						            			textStyle: '',
+						            			viewers: topStream.viewers
+						            		};
+						            	} else {
+						            		data = {
+						            			stream: topStream.channel.name,
+						            			img: '',
+						            			imgStyle: '',
+						            			textStyle: 'padding-left: 30px',
+						            			viewers: topStream.viewers
+						            		};
+						            	}
+					            		roleCount++;
+					            		$("#suggestRole").append(template(data));
+						            }
+						        }
 		                    }
 				        });
 					}) (i);
@@ -169,35 +171,37 @@
             success: function(dataWeGotViaJsonp) {
                 for (var i = 0; i < 50; i++) {
                 	(function (i) {
-	                	if (regionCount == 5) {
-		            		return;
-		            	}
 	                    $.ajax({
 				            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
 				            dataType: 'json',
-				            success: function(streamData) {			           
-				            	topStream = dataWeGotViaJsonp.streams[i];
-				            	if (streamData.region == region) {
-				            		if (streamData.champion != "") {
-					            		data = {
-					            			stream: topStream.channel.name,
-					            			img: 'images/champions/' + streamData.champion + 'Square.png',
-					            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
-					            			textStyle: '',
-					            			viewers: topStream.viewers
-					            		};
-					            	} else {
-					            		data = {
-					            			stream: topStream.channel.name,
-					            			img: '',
-					            			imgStyle: '',
-					            			textStyle: 'padding-left: 30px',
-					            			viewers: topStream.viewers
-					            		};
-					            	}
-				            		regionCount++;
-				            		$("#suggestRegion").append(template(data));
-					            }
+				            success: function(streamData) {			 
+				            	if (regionCount == 5) {
+				            		return;
+				            	}
+				            	else {          
+					            	topStream = dataWeGotViaJsonp.streams[i];
+					            	if (streamData.region == region) {
+					            		if (streamData.champion != "") {
+						            		data = {
+						            			stream: topStream.channel.name,
+						            			img: 'images/champions/' + streamData.champion + 'Square.png',
+						            			imgStyle: 'width:24px; height:24px; float: left; padding: 0px 5px',
+						            			textStyle: '',
+						            			viewers: topStream.viewers
+						            		};
+						            	} else {
+						            		data = {
+						            			stream: topStream.channel.name,
+						            			img: '',
+						            			imgStyle: '',
+						            			textStyle: 'padding-left: 30px',
+						            			viewers: topStream.viewers
+						            		};
+						            	}
+					            		regionCount++;
+					            		$("#suggestRegion").append(template(data));
+						            }
+						        }
 		                    }
 				        });
 					}) (i);
