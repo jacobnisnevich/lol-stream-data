@@ -4,7 +4,7 @@
 
 	With oJSON.data
 
-		.Add "status", "active"
+		.Add "status", "inactive"
 		.Add "message", "Current game statistics are temporarily unavailable due to issues with the in-game API"
 
 	End With
