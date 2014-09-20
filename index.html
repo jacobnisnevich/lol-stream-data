@@ -72,6 +72,8 @@
             }
         });
 
+		// Check roles
+
 		$("#checkTop").change(function() {
 			$("span[class^='fRole']").each(function() {
 				if ($(this).text() == "TOP") {
@@ -107,6 +109,79 @@
 				}
 			});
 		});
+
+		// Check region
+
+		$("#checkBR").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "br") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkEUNE").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "eune") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkEUW").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "euw") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkKR").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "kr") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkLAN").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "lan") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkLAS").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "las") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkNA").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "na") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkOCE").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "oce") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkRU").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "ru") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
+		$("#checkTR").change(function() {
+			$("span[class^='fRegion']").each(function() {
+				if ($(this).text() == "tr") {
+					$(this).parent().closest('div').parent().closest('div').toggle("slide");
+				}
+			});
+		});
     })
 </script>
 <body>
@@ -118,6 +193,7 @@
 		<span>About</span>
 	</div>
 	<div id="streamFilter">
+		<div>Filter by Role</div>
 		<form>
 			<div>Top: <input type="checkbox" id="checkTop" checked></div>
 			<div>Jungler: <input type="checkbox" id="checkJungler" checked></div>
@@ -125,15 +201,19 @@
 			<div>ADC: <input type="checkbox" id="checkADC" checked></div>
 			<div>Support: <input type="checkbox" id="checkSupport" checked></div>
 		</form>
-		<!--CHECK REGIONS
+		<div>Filter by Region</div>
 		<form>
-			<div>Top: <input type="checkbox" id="check" checked></div>
-			<div>Jungler: <input type="checkbox" id="checkJungler" checked></div>
-			<div>Mid: <input type="checkbox" id="checkMid" checked></div>
-			<div>ADC: <input type="checkbox" id="checkADC" checked></div>
-			<div>Support: <input type="checkbox" id="checkSupport" checked></div>
+			<div>BR: <input type="checkbox" id="checkBR" checked></div>
+			<div>EUNE: <input type="checkbox" id="checkEUNE" checked></div>
+			<div>EUW: <input type="checkbox" id="checkEUW" checked></div>
+			<div>KR: <input type="checkbox" id="checkKR" checked></div>
+			<div>LAN: <input type="checkbox" id="checkLAN" checked></div>
+			<div>LAS: <input type="checkbox" id="checkLAS" checked></div>
+			<div>NA: <input type="checkbox" id="checkNA" checked></div>
+			<div>OCE: <input type="checkbox" id="checkOCE" checked></div>
+			<div>RU: <input type="checkbox" id="checkRU" checked></div>
+			<div>TR: <input type="checkbox" id="checkTR" checked></div>
 		</form>
-		-->
  	</div>
 	<div id="content">
 		<div id="featured">
