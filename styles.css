@@ -62,7 +62,7 @@ a {
 	position: fixed;
 	width: 150px;
 	background-color: #EEE;
-	padding: 20px;
+	padding: 20px 20px 0px 20px;
 	margin: 20px;
 	top: 50px;
 	box-shadow: 1px 1px 1px #CCC;
@@ -170,6 +170,7 @@ a {
 	height: 300px;
 	margin: 20px 10px;
 	background-color: #DDD;
+	box-shadow: 3px 3px 5px #CCC;
 }
 
 #rankLeague {
@@ -233,6 +234,7 @@ a {
  	font-weight: bold;
  	background-color: #CCC;
  	padding: 19px;
+ 	box-shadow: 1px 1px 2px #BBB;
 }
 
 #currentChamp {
@@ -241,6 +243,7 @@ a {
  	font-weight: bold;
  	background-color: #CCC;
  	padding: 10px;
+ 	box-shadow: 1px 1px 2px #BBB;
 }
 
 .currentChampStatsPanels div {
