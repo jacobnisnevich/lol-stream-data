@@ -90,7 +90,7 @@
 	With writeJSON.data
 
 		.Add "summoner", summoner
-		.Add "id", id,
+		.Add "id", id
 		.Add "tier", tier
 		.Add "division", division
 
