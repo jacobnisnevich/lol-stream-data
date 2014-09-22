@@ -24,6 +24,8 @@
     'set recordset rs to SQL command output
 	Set rs = command.Execute()
 
+	summoner = ""
+
 	Set oJSON = New aspJSON
 
 	'loop through record set
@@ -65,42 +67,48 @@
 
 	Loop
 
-'Get summoner id from summoner name
+	If summoner <> "" Then
+		'Get summoner id from summoner name
+		summonerID_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
 
-	summonerID_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+		oJSON.loadJSON(summonerID_data)
 
-	oJSON.loadJSON(summonerID_data)
+		id = CStr(oJSON.data(summoner).item("id"))
 
-	id = CStr(oJSON.data(summoner).item("id"))
+		'Get league info from summoner id
+		league_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
 
-'Get league info from summoner id
+		oJSON.loadJSON(league_data)
 
-	league_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+		tier = oJSON.data(id).item(0).item("tier")
+		division = oJSON.data(id).item(0).item("entries").item(0).item("division")
+		leaguepoints = oJSON.data(id).item(0).item("entries").item(0).item("leaguePoints")
 
-	oJSON.loadJSON(league_data)
+		'Send data in JSON format
 
-	tier = oJSON.data(id).item(0).item("tier")
+		Set writeJSON = New aspJSON
 
-	division = oJSON.data(id).item(0).item("entries").item(0).item("division")
+		With writeJSON.data
 
-	leaguepoints = oJSON.data(id).item(0).item("entries").item(0).item("leaguePoints")
+			.Add "success", "true"
+			.Add "summoner", summoner
+			.Add "id", id
+			.Add "tier", tier
+			.Add "division", division
+			.Add "lp", leaguepoints
 
-'Send data in JSON format
+		End With
+	Else 
+		Set writeJSON = New aspJSON
 
-	Set writeJSON = New aspJSON
+		With writeJSON.data
 
-	With writeJSON.data
+			.Add "success", "false"
 
-		.Add "summoner", summoner
-		.Add "id", id
-		.Add "tier", tier
-		.Add "division", division
-		.Add "lp", leaguepoints
-
-	End With
+		End With
+	End If
 
 	Response.Write writeJSON.JSONoutput()
 
 	Response.End()
-
 %>

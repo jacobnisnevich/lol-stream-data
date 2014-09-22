@@ -10,7 +10,7 @@
 <body>
 	<div id="topBar" align="center" valign="center">
 		<span id="logo"><a href="/lol-stream-data">LOL STREAM DATA</a></span>
-		<span><a href="/lol-stream-data">All Streams</a></span>
+		<span><a href="allstreams.asp">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
