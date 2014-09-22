@@ -83,6 +83,8 @@
 
 	division = oJSON.data(id).item(0).item("entries").item(0).item("division")
 
+	leaguepoints = oJSON.data(id).item(0).item("entries").item(0).item("leaguePoints")
+
 'Send data in JSON format
 
 	Set writeJSON = New aspJSON
@@ -93,6 +95,7 @@
 		.Add "id", id
 		.Add "tier", tier
 		.Add "division", division
+		.Add "lp", leaguepoints
 
 	End With
 
