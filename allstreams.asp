@@ -22,10 +22,12 @@
 					$('#content').attr("align", "left");
 					$('#streamsTable').show();
 				    $('#streamsTable').DataTable( {
+				    	"order": [[ 0, "asc" ]],
 					    "data": 			data.streams,
 					    "info":     		false,
 					    "iDisplayLength": 	25,
 					    columns: [
+					    	{ data: 'views'},
 					        { data: 'twitch' },
 					        { data: 'summoner' },
 					        { data: 'champion' },
@@ -51,6 +53,7 @@
 		<table id="streamsTable" style="display:none">
 			<thead>
 				<tr>
+					<th></th>
 					<th>Twitch Stream</th>
 					<th>Summoner Name</th>
 					<th>Current Champion</th>

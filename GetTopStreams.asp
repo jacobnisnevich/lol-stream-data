@@ -24,7 +24,8 @@
                 If IsEmpty(jsonstring) Then
                     .Add i, outJSON.Collection()
 					With .item(i)
-						.Add "twitch", twitch
+						.Add "views", CStr(i + 1)
+						.Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
 						.Add "summoner", ""
 						.Add "champion", ""
 						.Add "rank", ""
@@ -52,7 +53,8 @@
 
 					    .Add i, outJSON.Collection()
 					    With .item(i)
-						    .Add "twitch", twitch
+					    	.Add "views", CStr(i + 1)
+						    .Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
 						    .Add "summoner", summoner
 						    .Add "champion", champion
 						    .Add "rank", rank
@@ -63,7 +65,8 @@
 				    Else 
 					    .Add i, outJSON.Collection()
 					    With .item(i)
-						    .Add "twitch", twitch
+					    	.Add "views", CStr(i + 1)
+						    .Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
 						    .Add "summoner", ""
 						    .Add "champion", ""
 						    .Add "rank", ""
