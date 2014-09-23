@@ -69,14 +69,14 @@
 
 	If summoner <> "" Then
 		'Get summoner id from summoner name
-		summonerID_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+		summonerID_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
 
 		oJSON.loadJSON(summonerID_data)
 
 		id = CStr(oJSON.data(Replace(LCase(summoner), " ", "")).item("id"))
 
 		'Get league info from summoner id
-		league_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+		league_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
 
 		oJSON.loadJSON(league_data)
 
