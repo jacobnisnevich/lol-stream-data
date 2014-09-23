@@ -11,55 +11,30 @@
 	<script src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
 </head>
 <body>
-	<script id="rowInstance" type="text/x-handlebars-template">
-		<tr>
-			<td><a href="player.asp?stream={{ twitch }}"> {{ twitch }}</td>
-			<td>{{ summoner }}</td>
-			<td>{{ champion }}</td>
-			<td>{{ rank }}</td>
-			<td>{{ lp }}</td>
-			<td>{{ role }}</td>
-			<td>{{ region }}</td>
-		</tr>
-	</script>
 	<script>
 		$(document).ready(function(){
-			// initialize handlebars
-		    var templateScript = $("#rowInstance").html();
-			var template = Handlebars.compile (templateScript);
-
 			// pass data to datatable
 			$.ajax({
 	            url: 'http://jacob.nisnevich.com/lol-stream-data/GetTopStreams.asp',
 	            dataType: 'json',
-	            success: function(JSONdata) {
-	                for (var i = 0; i < 25; i++) {
-	                	(function (i) {
-		                    var stream = JSONdata.streams[i];
-
-		                    data = {
-								twitch: stream.twitch,
-								summoner: stream.summoner,
-								champion: stream.champion,
-								rank: stream.rank,
-								lp: stream.lp,
-								role: stream.role,
-								region: stream.region
-							}
-
-							$("#tableBody").append(template(data));
-
-							if (i == 24) {	
-								// initialize datatable
-								$('#loadImg').hide();
-								$('#content').attr("align", "left");
-								$('#streamsTable').show();
-							    $('#streamsTable').DataTable( {
-								    data: data
-								} );
-							}
-						}) (i);
-	                }
+	            success: function(data) {
+					$('#loadImg').hide();
+					$('#content').attr("align", "left");
+					$('#streamsTable').show();
+				    $('#streamsTable').DataTable( {
+					    "data": 			data.streams,
+					    "info":     		false,
+					    "iDisplayLength": 	25,
+					    columns: [
+					        { data: 'twitch' },
+					        { data: 'summoner' },
+					        { data: 'champion' },
+					        { data: 'rank' },
+					        { data: 'lp' },
+					        { data: 'role' },
+					        { data: 'region' }
+					    ]
+					} );
 	            }
 	        });
 		});
@@ -71,7 +46,7 @@
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
 	</div>
-	<div id="content" align="center">
+	<div id="content" align="center" style="font-size:18px">
 		<img id="loadImg" src="images/loading.gif" style="padding: 50px"/>
 		<table id="streamsTable" style="display:none">
 			<thead>

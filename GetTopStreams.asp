@@ -1,6 +1,8 @@
 <!--#include file="includes/aspJSON1.17.asp" -->
 <!--#include file="helpers.asp" -->
 <%
+	Server.ScriptTimeout = 200
+
 	Set inJSON = new aspJSON
 	Set outJSON = new aspJSON
 
