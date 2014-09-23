@@ -26,7 +26,7 @@
 					    "data": 			data.streams,
 					    "info":     		false,
 					    "iDisplayLength": 	25,
-					    columns: [
+					    "columns": [
 					    	{ data: 'views'},
 					        { data: 'twitch' },
 					        { data: 'summoner' },
@@ -35,10 +35,31 @@
 					        { data: 'lp' },
 					        { data: 'role' },
 					        { data: 'region' }
-					    ]
+					    ],
+						"aoColumnDefs": [
+							{ "sType": "league-rank-asc", "aTargets": [ 4 ] }
+						]
 					} );
 	            }
 	        });
+
+			var ranks = [
+				"",
+				"BRONZE V",   "BRONZE IV",   "BRONZE III",   "BRONZE II",   "BRONZE I",
+				"SILVER V",   "SILVER IV",   "SILVER III",   "SILVER II",   "SILVER I",
+				"GOLD V",     "GOLD IV",     "GOLD III",     "GOLD II",     "GOLD I",
+				"PLATINUM V", "PLATINUM IV", "PLATINUM III", "PLATINUM II", "PLATINUM I",
+				"DIAMOND V",  "DIAMOND IV",  "DIAMOND III",  "DIAMOND II",  "DIAMOND I",
+				"MASTER I",   "CHALLENGER I"
+			]
+
+	        $.fn.dataTableExt.oSort['league-rank-asc']  = function(x,y) {
+			    return ((ranks.indexOf(x) < ranks.indexOf(y)) ? -1 : ((ranks.indexOf(x) > ranks.indexOf(y)) ?  1 : 0));
+			};
+			 
+			$.fn.dataTableExt.oSort['league-rank-desc'] = function(x,y) {
+			    return ((ranks.indexOf(x) < ranks.indexOf(y)) ?  1 : ((ranks.indexOf(x) > ranks.indexOf(y)) ? -1 : 0));
+			};
 		});
 	</script>
 	<div id="topBar" align="center" valign="center">

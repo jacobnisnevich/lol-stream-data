@@ -6,14 +6,14 @@
 	Set inJSON = new aspJSON
 	Set outJSON = new aspJSON
 
-	jsonstring = GetTextFromUrl("https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=100")
+	jsonstring = GetTextFromUrl("https://api.twitch.tv/kraken/streams?game=League+of+Legends&limit=50")
 	inJSON.loadJSON(jsonstring)
 
 	With outJSON.data
 		.Add "streams", outJSON.Collection()
 
 		With outJSON.data("streams")
-			For i = 0 To 99
+			For i = 0 To 49
 
 				twitch = inJSON.data("streams").item(i).item("channel").item("name")
 				
