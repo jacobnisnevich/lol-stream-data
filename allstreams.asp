@@ -30,61 +30,38 @@
 
 			// pass data to datatable
 			$.ajax({
-	            url: 'https://api.twitch.tv/kraken/streams?game=League+of+Legends',
-	            dataType: 'jsonp',
-	            success: function(dataWeGotViaJsonp) {
+	            url: 'http://jacob.nisnevich.com/lol-stream-data/GetTopStreams.asp',
+	            dataType: 'json',
+	            success: function(JSONdata) {
 	                for (var i = 0; i < 25; i++) {
 	                	(function (i) {
-		                    $.ajax({
-					            url: 'GetStreamData.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
-					            dataType: 'json',
-					            success: function(streamData) {			           
-					            	if (streamData.champion != "") {
-				                    	$.ajax({ 
-				                    		url: 'GetRank.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
-								            dataType: 'json',
-								            success: function(rankData) {
-								            	topStream = dataWeGotViaJsonp.streams[i];
-												data = {
-													twitch: topStream.channel.name,
-													summoner: rankData.summoner,
-													champion: streamData.champion,
-													rank: rankData.tier + rankData.division,
-													lp: rankData.lp,
-													role: streamData.role,
-													region: streamData.region
-												}
-												$("#tableBody").append(template(data));
-								            }
-								        });
-				                    } else {
-				                    	$.ajax({ 
-				                    		url: 'GetRank.asp?stream=' + dataWeGotViaJsonp.streams[i].channel.name,
-								            dataType: 'json',
-								            success: function(rankData) {
-								            	topStream = dataWeGotViaJsonp.streams[i];
-												data = {
-													twitch: topStream.channel.name,
-													summoner: rankData.summoner,
-													champion: '',
-													rank: rankData.tier + rankData.division,
-													lp: rankData.lp,
-													role: streamData.role,
-													region: streamData.region
-												}
-												$("#tableBody").append(template(data));
-								            }
-								        });
-				                    }
-			                    }
-					        });
+		                    var stream = JSONdata.streams[i];
+
+		                    data = {
+								twitch: stream.twitch,
+								summoner: stream.summoner,
+								champion: stream.champion,
+								rank: stream.rank,
+								lp: stream.lp,
+								role: stream.role,
+								region: stream.region
+							}
+
+							$("#tableBody").append(template(data));
+
+							if (i == 24) {	
+								// initialize datatable
+								$('#loadImg').hide();
+								$('#content').attr("align", "left");
+								$('#streamsTable').show();
+							    $('#streamsTable').DataTable( {
+								    data: data
+								} );
+							}
 						}) (i);
 	                }
 	            }
 	        });
-
-			// initialize datatable
-		    $('#streamsTable').DataTable();
 		});
 	</script>
 	<div id="topBar" align="center" valign="center">
@@ -94,8 +71,9 @@
 		<span><a href="contribute.asp">Contribute</a></span>
 		<span>About</span>
 	</div>
-	<div id="content">
-		<table id="streamsTable">
+	<div id="content" align="center">
+		<img id="loadImg" src="images/loading.gif" style="padding: 50px"/>
+		<table id="streamsTable" style="display:none">
 			<thead>
 				<tr>
 					<th>Twitch Stream</th>

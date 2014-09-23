@@ -73,7 +73,7 @@
 
 		oJSON.loadJSON(summonerID_data)
 
-		id = CStr(oJSON.data(summoner).item("id"))
+		id = CStr(oJSON.data(Replace(LCase(summoner), " ", "")).item("id"))
 
 		'Get league info from summoner id
 		league_data = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
