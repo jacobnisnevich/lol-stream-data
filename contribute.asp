@@ -1,6 +1,7 @@
 <html>
 <title>Contribute</title>
 <head>
+	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="shortcut icon" href="logo_test-ico.ico">
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>

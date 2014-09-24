@@ -3,8 +3,18 @@
 <!--#include file="connect.asp" -->
 <!--#include file="helpers.asp" -->
 <%
+    Function Convert(sIn)
+        Dim oIn : Set oIn = CreateObject("ADODB.Stream")
+        oIn.Open
+        oIn.CharSet = "ISO-8859-1"
+        oIn.WriteText sIn
+        oIn.Position = 0
+        oIn.CharSet = "UTF-8" 
+        Convert = oIn.ReadText
+        oIn.Close
+    End Function
 
-'Get summoner name from twitch
+    'Get summoner name from twitch
 	'retrieve url parameter and store it
 	twitch = Request.QueryString("stream")
 
