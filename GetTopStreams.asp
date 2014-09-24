@@ -25,13 +25,14 @@
                     .Add i, outJSON.Collection()
 					With .item(i)
 						.Add "views", CStr(i + 1)
-						.Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
+						.Add "twitch", "<b style=""line-height:normal""><a href=""player.asp?stream=" + twitch + """>" + twitch + "</a></b>"
 						.Add "summoner", ""
 						.Add "champion", ""
 						.Add "rank", ""
 						.Add "lp", ""
 						.Add "role", ""
 						.Add "region", ""
+						.Add "add", "<b style=""line-height:normal""><a href=""contribute.asp?stream=" + twitch + """>Contribute</a></b>"
 					End With
                 Else
 				    inJSON.loadJSON(jsonstring)
@@ -54,25 +55,27 @@
 					    .Add i, outJSON.Collection()
 					    With .item(i)
 					    	.Add "views", CStr(i + 1)
-						    .Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
+						    .Add "twitch", "<b style=""line-height:normal""><a href=""player.asp?stream=" + twitch + """>" + twitch + "</a></b>"
 						    .Add "summoner", summoner
 						    .Add "champion", champion
 						    .Add "rank", rank
 						    .Add "lp", lp
 						    .Add "role", role
 						    .Add "region", region
+						    .Add "add", "<b style=""line-height:normal""><a href=""contribute.asp?stream=" + twitch + """>Contribute</a></b>"
 					    End With
 				    Else 
 					    .Add i, outJSON.Collection()
 					    With .item(i)
 					    	.Add "views", CStr(i + 1)
-						    .Add "twitch", "<a href=""player.asp?stream=" + twitch + """>" + twitch + "</a>"
+						    .Add "twitch", "<b style=""line-height:normal""><a href=""player.asp?stream=" + twitch + """>" + twitch + "</a></b>"
 						    .Add "summoner", ""
 						    .Add "champion", ""
 						    .Add "rank", ""
 						    .Add "lp", ""
 						    .Add "role", ""
 						    .Add "region", ""
+						    .Add "add", "<b style=""line-height:normal""><a href=""contribute.asp?stream=" + twitch + """>Contribute</a></b>"
 					    End With
 				    End If
                 End If

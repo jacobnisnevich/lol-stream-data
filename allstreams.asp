@@ -34,10 +34,11 @@
 					        { data: 'rank' },
 					        { data: 'lp' },
 					        { data: 'role' },
-					        { data: 'region' }
+					        { data: 'region' },
+					        { data: 'add'}
 					    ],
 						"aoColumnDefs": [
-							{ "sType": "league-rank-asc", "aTargets": [ 4 ] }
+							{ "sType": "league-rank", "aTargets": [ 4 ] }
 						]
 					} );
 	            }
@@ -82,6 +83,7 @@
 					<th>League Points</th>
 					<th>Role</th>
 					<th>Region</th>
+					<th>Add to DB</th>
 				</tr>
 			</thead>
 

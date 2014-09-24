@@ -21,7 +21,7 @@
 				<div style="width:400px">
 					<div class="contributeForm">
 						<span>Twitch Username</span>
-						<input type="text" name="twitch"/>
+						<input type="text" name="twitch" value="<%= Request.QueryString("stream") %>"/>
 					</div>
 					<div class="contributeForm">
 						<span>Summoner Name</span>
