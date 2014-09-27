@@ -54,6 +54,8 @@
 				"MASTER I",   "CHALLENGER I"
 			]
 
+			// sort functions for league rank
+
 	        $.fn.dataTableExt.oSort['league-rank-asc']  = function(x,y) {
 			    return ((ranks.indexOf(x) < ranks.indexOf(y)) ? -1 : ((ranks.indexOf(x) > ranks.indexOf(y)) ?  1 : 0));
 			};
