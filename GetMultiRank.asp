@@ -13,7 +13,7 @@
 	twitchArrayLen = UBound(twitchArray) + 1
 
 	Dim summonerArray
-	ReDim myArray(twitchArrayLen)
+	ReDim summonerArray(twitchArrayLen)
 
 	For i = 0 To (twitchArrayLen - 1)
 
@@ -96,6 +96,8 @@
 
 	Next
 
+	For i = 0 To UBound(summonerArray)
+	
 
 	If summoner <> "" Then
 		'Get summoner id from summoner name
