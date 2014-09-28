@@ -47,42 +47,55 @@
 			role = rs("role")
 
 			If region = "kr" Then
-
 				Exit Do
-
 			End If
 
 		    jsonstring = GetTextFromUrl("https://community-league-of-legends.p.mashape.com/api/v1.0/" + region + "/summoner/retrieveInProgressSpectatorGameInfo/" + summoner)
 
 			'get data from LoL api based on summoner
 			If Not IsNull(jsonstring) And Not IsEmpty(jsonstring) Then
-
 				oJSON.loadJSON(jsonstring)
-
 	        Else 
-
 	            Exit Do
-
 			End If
 
 			'if summoner is in a game, exit loop, otherwise move on to next record
 			If oJSON.data("success") <> "false" Then
-
-				Exit Do
-				
+				Exit Do				
 			Else
-
 				rs.MoveNext
-
 			End If
 
 		Loop
 
-		twitchToSumm = Array(twitch, summoner, region, role)
-
+		twitchToSumm = Array(i, twitch, summoner, region, role)
 		summonerArray(i) = twitchToSumm
 
 	Next
+
+	Set writeJSON = New aspJSON
+	With writeJSON.data
+
+	For i = 0 To UBound(summonerArray)
+
+		If summonerArray(i)(1) = "" Then
+
+			'Add to json
+			.Add i, writeJSON.Collection()
+			With .item(i)
+				.Add "success", "false"
+			End With
+
+			'Resize array
+			For x = i To UBound(summonerArray)-1
+			    summonerArray(x) = summonerArray(x + 1)
+			Next
+			ReDim Preserve summonerArray(UBound(summonerArray) - 1)
+
+		End If
+
+	Next
+
 
 	If summoner <> "" Then
 		'Get summoner id from summoner name
