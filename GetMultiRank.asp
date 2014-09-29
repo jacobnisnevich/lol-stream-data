@@ -4,19 +4,15 @@
 <!--#include file="helpers.asp" -->
 <%
 	'Get summoner name from twitch
-
 	'retrieve url parameter and store it
 	twitchIn = Request.QueryString("stream")
-
 	twitchArray = Split(twitchIn, ",")
-
 	twitchArrayLen = UBound(twitchArray) + 1
 
 	Dim summonerArray
 	ReDim summonerArray(twitchArrayLen)
 
 	For i = 0 To (twitchArrayLen - 1)
-
 		twitch = twitchArray(i)
 
 		'open ADODB connection to database
@@ -41,7 +37,6 @@
 
 		'loop through record set
 		Do While Not rs.EOF
-
 			summoner = rs("summoner")
 			region = rs("region")
 			role = rs("role")
@@ -65,21 +60,18 @@
 			Else
 				rs.MoveNext
 			End If
-
 		Loop
 
 		twitchToSumm = Array(i, twitch, summoner, region, role)
 		summonerArray(i) = twitchToSumm
-
 	Next
 
 	Set writeJSON = New aspJSON
 	With writeJSON.data
 
-	For i = 0 To UBound(summonerArray)
-
-		If summonerArray(i)(1) = "" Then
-
+	For i = 0 To (UBound(summonerArray)-1)
+		Response.Write summonerArray(i)(1)
+		If CStr(summonerArray(i)(1)) = "" Then
 			'Add to json
 			.Add i, writeJSON.Collection()
 			With .item(i)
@@ -91,56 +83,73 @@
 			    summonerArray(x) = summonerArray(x + 1)
 			Next
 			ReDim Preserve summonerArray(UBound(summonerArray) - 1)
-
 		End If
-
 	Next
 
+	Dim naString
+
 	For i = 0 To UBound(summonerArray)
-	
+		'Create comma-separated list of all NA summoners
+		naCounter = 0
+		If naCounter <> 40 And summonerArray(i)(4) = "na" Then
+			If naCounter = 0 Then
+				naString = summonerArray(i)
+			Else
+				naString = naString & "," & summonerArray(i)(2)
+			End If
+		End If
+	Next
 
-	If summoner <> "" Then
-		'Get summoner id from summoner name
-		summonerID_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+	naSummonerIds = GetTextFromUrl("https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/naString?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+	oJSON.loadJSON(naSummonerIds)
 
-		oJSON.loadJSON(summonerID_data)
+	For Each naSummoner In oJSON.data
+	    Response.Write naSummoner
+	Next
 
-		id = CStr(oJSON.data(Replace(LCase(summoner), " ", "")).item("id"))
-
-		'Get league info from summoner id
-		league_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
-
-		oJSON.loadJSON(league_data)
-
-		tier = oJSON.data(id).item(0).item("tier")
-		division = oJSON.data(id).item(0).item("entries").item(0).item("division")
-		leaguepoints = oJSON.data(id).item(0).item("entries").item(0).item("leaguePoints")
-
-		'Send data in JSON format
-
-		Set writeJSON = New aspJSON
-
-		With writeJSON.data
-
-			.Add "success", "true"
-			.Add "summoner", summoner
-			.Add "id", id
-			.Add "tier", tier
-			.Add "division", division
-			.Add "lp", leaguepoints
-
-		End With
-	Else 
-		Set writeJSON = New aspJSON
-
-		With writeJSON.data
-
-			.Add "success", "false"
-
-		End With
-	End If
-
-	Response.Write writeJSON.JSONoutput()
-
-	Response.End()
+	End With
+'	If summoner <> "" Then
+'		'Get summoner id from summoner name
+'		summonerID_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summoner + "?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+'
+'		oJSON.loadJSON(summonerID_data)
+'
+'		id = CStr(oJSON.data(Replace(LCase(summoner), " ", "")).item("id"))
+'
+'		'Get league info from summoner id
+'		league_data = GetTextFromUrl("https://" + region + ".api.pvp.net/api/lol/" + region + "/v2.5/league/by-summoner/" + id + "/entry?api_key=5b1c5bb8-e188-4c00-b733-b49c18d56643")
+'
+'		oJSON.loadJSON(league_data)
+'
+'		tier = oJSON.data(id).item(0).item("tier")
+'		division = oJSON.data(id).item(0).item("entries").item(0).item("division")
+'		leaguepoints = oJSON.data(id).item(0).item("entries").item(0).item("leaguePoints")
+'
+'		'Send data in JSON format
+'
+'		Set writeJSON = New aspJSON
+'
+'		With writeJSON.data
+'
+'			.Add "success", "true"
+'			.Add "summoner", summoner
+'			.Add "id", id
+'			.Add "tier", tier
+'			.Add "division", division
+'			.Add "lp", leaguepoints
+'
+'		End With
+'	Else 
+'		Set writeJSON = New aspJSON
+'
+'		With writeJSON.data
+'
+'			.Add "success", "false"
+'
+'		End With
+'	End If
+'
+'	Response.Write writeJSON.JSONoutput()
+'
+'	Response.End()
 %>
