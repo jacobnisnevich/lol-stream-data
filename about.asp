@@ -29,6 +29,7 @@
 				<li>Fix problem with images loading slowly on player page</li>
 				<li>Show number of viewers for each stream by the preview on the home page</li>
 				<li>Fix problem resulting in occasional incorrect ordering of streams on home page</li>
+				<li>Navigate to more player pages from game in progress player list</li>
 			</ul>
 		</div>
 	</div>
