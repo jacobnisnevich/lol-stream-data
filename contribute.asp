@@ -14,7 +14,7 @@
 		<span><a href="allstreams.asp">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
-		<span>About</span>
+		<span><a href="about.asp">About</span>
 	</div>
 	<div id="content" align="center">
 		<div id="contributeFormDiv">
