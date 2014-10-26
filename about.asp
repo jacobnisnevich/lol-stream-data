@@ -1,5 +1,5 @@
 <html>
-<title>Contribute</title>
+<title>About</title>
 <head>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" type="text/css" href="styles.css">
@@ -14,20 +14,20 @@
 		<span><a href="allstreams.asp">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
-		<span><a href="about.asp">About</span>
+		<span><a href="about.asp">About</a></span>
 	</div>
-	<div id="content" align="center">
+	<div id="content">
 		<div class="contentBox">
-			<div class="contentTitle">Upcoming Features</div>
-			<div class="contentDescription">Navigate directly to a Twitch stream by simply entering the Twitch account name and hitting "GO"</div>
-			<li>
-				<ul>Categories page</ul>
-				<ul>Add additional League of Legends accounts on player page</ul>
-				<ul>Faster All Streams page with better API requests</ul>
-				<ul>Functional API for requesting current stream information</ul>
-				<ul>Ability to manually change between summoner accounts on player page</ul>
-				<ul>Fix problem with images loading slowly on player page</ul>
-			</li>
+			<div class="contentTitle">Features List</div>
+			<!--<div class="contentDescription">Navigate directly to a Twitch stream by simply entering the Twitch account name and hitting "GO"</div>-->
+			<ul>
+				<li>Categories page</li>
+				<li>Add additional League of Legends accounts on player page</li>
+				<li>Faster All Streams page with better API requests</li>
+				<li>Functional API for requesting current stream information</li>
+				<li>Ability to manually change between summoner accounts on player page</li>
+				<li>Fix problem with images loading slowly on player page</li>
+			</ul>
 		</div>
 	</div>
 </body>

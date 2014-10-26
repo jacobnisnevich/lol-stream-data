@@ -453,7 +453,7 @@
 		<span><a href="allstreams.asp">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
-		<span><a href="about.asp">About</span>
+		<span><a href="about.asp">About</a></span>
 	</div>
 	<div id="suggested">
 		<div class="suggestedCategory" id="suggestRole">

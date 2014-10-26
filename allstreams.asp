@@ -70,7 +70,7 @@
 		<span><a href="allstreams.asp">All Streams</a></span>
 		<span>Categories</span>
 		<span><a href="contribute.asp">Contribute</a></span>
-		<span><a href="about.asp">About</span>
+		<span><a href="about.asp">About</a></span>
 	</div>
 	<div id="content" align="center" style="font-size:18px">
 		<img id="loadImg" src="images/loading.gif" style="padding: 50px"/>
