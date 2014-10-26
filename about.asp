@@ -18,9 +18,9 @@
 	</div>
 	<div id="content">
 		<div class="contentBox">
-			<div class="contentTitle">Features List</div>
+			<div class="contentTitle"><b>Features List</b></div>
 			<!--<div class="contentDescription">Navigate directly to a Twitch stream by simply entering the Twitch account name and hitting "GO"</div>-->
-			<ul>
+			<ul style="list-style-type:square;">
 				<li>Categories page</li>
 				<li>Add additional League of Legends accounts on player page</li>
 				<li>Faster All Streams page with better API requests</li>
