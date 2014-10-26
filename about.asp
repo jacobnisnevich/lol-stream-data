@@ -18,7 +18,7 @@
 	</div>
 	<div id="content">
 		<div class="contentBox">
-			<div class="contentTitle"><b>Features List</b></div>
+			<div class="contentTitle"><b>Upcoming Features List</b></div>
 			<!--<div class="contentDescription">Navigate directly to a Twitch stream by simply entering the Twitch account name and hitting "GO"</div>-->
 			<ul style="list-style-type:square;">
 				<li>Categories page</li>
@@ -27,6 +27,8 @@
 				<li>Functional API for requesting current stream information</li>
 				<li>Ability to manually change between summoner accounts on player page</li>
 				<li>Fix problem with images loading slowly on player page</li>
+				<li>Show number of viewers for each stream by the preview on the home page</li>
+				<li>Fix problem resulting in occasional incorrect ordering of streams on home page</li>
 			</ul>
 		</div>
 	</div>
